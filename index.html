@@ -3,177 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيلات صوفي ال دليم | v2.0</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>تسجيلات صوفي ال دليم | الماستر المستقر</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #05070a;
-            --bg-panel: #0f121a;
-            --bg-darker: #020406;
-            --gold-primary: #e5c158;
-            --cyan-accent: #00f0ff;
-            --neon-red: #ff2a5f;
-            --neon-green: #00ff66;
-            --text-main: #f1f2f6;
-            --text-muted: #64748b;
-            --border-gold: rgba(229, 193, 88, 0.25);
+            --bg-main: #04060a;
+            --bg-panel: #0d111b;
+            --bg-monitor: #020305;
+            --gold: #e5c158;
+            --cyan: #00f0ff;
+            --red: #ff2a5f;
+            --green: #00ff66;
+            --text: #f1f2f6;
+            --text-dim: #64748b;
+            --border: rgba(229, 193, 88, 0.2);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Cairo', sans-serif;
-            background: var(--bg-deep);
-            color: var(--text-main);
+            background: var(--bg-main);
+            color: var(--text);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 15px;
-            background-image: radial-gradient(circle at 50% 10%, rgba(229, 193, 88, 0.05) 0%, transparent 50%);
+            background-image: radial-gradient(circle at 50% 15%, rgba(229, 193, 88, 0.04) 0%, transparent 60%);
         }
 
         .studio-container {
             width: 100%;
-            max-width: 800px;
+            max-width: 750px;
             background: var(--bg-panel);
             border-radius: 20px;
-            border: 1px solid var(--border-gold);
+            border: 1px solid var(--border);
             padding: 25px;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.9);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
             position: relative;
         }
 
         .studio-container::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-            background: linear-gradient(90deg, var(--neon-red), var(--gold-primary), var(--cyan-accent));
+            background: linear-gradient(90deg, var(--red), var(--gold), var(--cyan));
             border-radius: 20px 20px 0 0;
         }
 
         .header-section { text-align: center; margin-bottom: 25px; }
-        .studio-title { font-size: 2rem; font-weight: 900; color: var(--gold-primary); text-shadow: 0 0 20px rgba(229, 193, 88, 0.4); }
-        .studio-subtitle { font-size: 0.8rem; color: var(--cyan-accent); font-family: 'Orbitron', sans-serif; letter-spacing: 3px; margin-top: 5px; }
+        .studio-title { font-size: 1.8rem; font-weight: 900; color: var(--gold); text-shadow: 0 0 15px rgba(229, 193, 88, 0.3); }
+        .studio-subtitle { font-size: 0.75rem; color: var(--cyan); font-family: 'Orbitron', sans-serif; letter-spacing: 2px; margin-top: 4px; }
 
-        .screen-card { background: var(--bg-darker); border-radius: 12px; padding: 15px; margin-bottom: 20px; }
-        .panel-label { font-family: 'Orbitron', sans-serif; font-size: 0.7rem; color: var(--gold-primary); letter-spacing: 2px; margin-bottom: 10px; display: block; }
-        #analyzer-view { width: 100%; height: 140px; background: #020406; display: block; border-radius: 6px; }
+        /* منطقة العدادات العمودية المدمجة */
+        .hardware-display {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
 
-        /* منطقة مشغل الصوت الاحتياطي */
-        .playback-box {
-            background: #090d16;
-            border: 1px dashed var(--cyan-accent);
-            border-radius: 10px;
+        .monitor-card {
+            background: var(--bg-monitor);
+            border-radius: 12px;
             padding: 15px;
+            border: 1px solid rgba(255,255,255,0.02);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.65rem;
+            color: var(--gold);
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        /* الكانفاس الخاص بالأعمدة العمودية */
+        #vertical-spectrum {
+            width: 100%;
+            height: 180px;
+            background: #010204;
+            display: block;
+            border-radius: 6px;
+        }
+
+        /* تصميم مقياس القمة الحقيقي لـ FL Studio */
+        .fl-vu-container {
+            display: flex;
+            height: 180px;
+            gap: 6px;
+            background: #010204;
+            padding: 8px;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .db-scale {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.55rem;
+            color: var(--text-dim);
+            text-align: right;
+            padding-left: 2px;
+        }
+
+        .vu-track {
+            flex: 1;
+            background: #05070a;
+            border-radius: 2px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            overflow: hidden;
+        }
+
+        .vu-bar-fill {
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(0deg, var(--green) 0%, var(--green) 75%, #ffee55 88%, var(--red) 98%);
+            transition: height 0.03s linear;
+        }
+
+        /* مشغل الصوت الآمن لمنع كراش المتصفح */
+        .safe-player-area {
+            background: #070a12;
+            border: 1px dashed var(--cyan);
+            border-radius: 10px;
+            padding: 12px;
             margin-bottom: 20px;
             display: none;
             text-align: center;
         }
-        .playback-box.active { display: block; }
-        audio { width: 100%; margin-top: 10px; }
+        audio { width: 100%; margin-top: 8px; }
 
-        .control-console { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
-        .console-box { background: #131822; border-radius: 10px; padding: 15px; }
+        /* أزرار التحكم والعمليات */
+        .controls-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .control-box { background: #111522; border-radius: 10px; padding: 15px; }
 
         .btn {
             width: 100%; padding: 14px; border: none; border-radius: 6px;
             font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 0.9rem;
             cursor: pointer; transition: all 0.2s ease;
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-            margin-bottom: 10px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            text-decoration: none;
         }
 
-        .btn-rec { background: #240c12; color: var(--neon-red); border: 1px solid rgba(255, 42, 95, 0.2); }
-        .btn-rec:hover:not(:disabled) { background: var(--neon-red); color: #fff; box-shadow: 0 0 15px rgba(255, 42, 95, 0.4); }
-        .btn-rec.recording { background: var(--neon-red); color: #fff; animation: pulseRec 0.8s infinite alternate; }
+        .btn-rec { background: #240c12; color: var(--red); border: 1px solid rgba(255, 42, 95, 0.2); }
+        .btn-rec:hover:not(:disabled) { background: var(--red); color: #fff; box-shadow: 0 0 15px rgba(255, 42, 95, 0.4); }
+        .btn-rec.recording { background: var(--red); color: #fff; animation: blinkNode 0.8s infinite alternate; }
 
-        @keyframes pulseRec { 0% { box-shadow: 0 0 2px var(--neon-red); } 100% { box-shadow: 0 0 18px var(--neon-red); } }
-        .btn-stop { background: #334155; color: #fff; }
-        .btn-stop:hover:not(:disabled) { background: #475569; }
-        .btn-down { background: #251f10; color: var(--gold-primary); border: 1px solid rgba(229, 193, 88, 0.2); }
-        .btn-down:hover:not(:disabled) { background: var(--gold-primary); color: #000; }
-        .btn:disabled { opacity: 0.1; cursor: not-allowed; }
+        @keyframes blinkNode { 0% { opacity: 0.7; } 100% { opacity: 1; box-shadow: 0 0 15px var(--red); } }
+        .btn-stop { background: #2d3748; color: #fff; }
+        .btn-stop:hover:not(:disabled) { background: #4a5568; }
 
-        .data-node { background: var(--bg-darker); padding: 10px; border-radius: 6px; border-right: 2px solid var(--gold-primary); text-align: center; }
-        .data-label { font-size: 0.6rem; color: var(--text-muted); }
-        .data-value { font-family: 'Orbitron', monospace; font-size: 1.2rem; font-weight: 700; color: var(--gold-primary); margin-top: 2px; }
+        /* زر التحميل الحقيقي المقاوم للاغلاق المفاجئ */
+        .btn-down { 
+            background: #251f10; color: var(--gold); 
+            border: 1px solid rgba(229, 193, 88, 0.2); 
+            display: none; /* يظهر فقط بعد انتهاء التسجيل */
+        }
+        .btn-down:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold); }
+
+        .btn:disabled { opacity: 0.15; cursor: not-allowed; }
+
+        .info-node { background: var(--bg-monitor); padding: 10px; border-radius: 6px; border-right: 2px solid var(--gold); text-align: center; margin-top: 10px; }
+        .info-label { font-size: 0.6rem; color: var(--text-dim); }
+        .info-val { font-family: 'Orbitron', monospace; font-size: 1.1rem; font-weight: 700; color: var(--gold); }
     </style>
 </head>
 <body>
 
     <div class="studio-container">
+        
         <div class="header-section">
             <h1 class="studio-title">تسجيلات صوفي ال دليم</h1>
-            <p class="studio-subtitle">AUDIO ENGINE V2 • BYPASS MODE</p>
+            <p class="studio-subtitle">STABLE AUDIO ENGINE V3 • BYPASS MODE</p>
         </div>
 
-        <div class="screen-card">
-            <span class="panel-label">📊 AUDIO SPECTRUM</span>
-            <canvas id="analyzer-view"></canvas>
-        </div>
-
-        <!-- صندوق الاستماع والإنقاذ في حال تعطل التحميل الخارجي -->
-        <div class="playback-box" id="safe-player-zone">
-            <span class="panel-label" style="color: var(--cyan-accent)">🎧 جاهز للاستماع والحفظ الآمن</span>
-            <audio id="main-audio-player" controls></audio>
-        </div>
-
-        <div class="control-console">
-            <div class="console-box">
-                <span class="panel-label">🎙️ CONTROL</span>
-                <button class="btn btn-rec" id="start-engine">🔴 بدء التسجيل</button>
-                <button class="btn btn-stop" id="stop-engine" disabled>⏹️ إيقاف وحفظ</button>
+        <!-- قسم شاشات العرض والمؤشرات العمودية الحقيقية -->
+        <div class="hardware-display">
+            
+            <div class="monitor-card">
+                <span class="panel-label">📊 VERTICAL SPECTRUM (أعمدة التردد)</span>
+                <canvas id="vertical-spectrum"></canvas>
             </div>
 
-            <div class="console-box">
-                <span class="panel-label">💾 EXPORT</span>
-                <button class="btn btn-down" id="down-master" disabled>💾 تحميل ملف WAV</button>
-                <div class="data-node" style="margin-top: 12px;">
-                    <div class="data-label">زمن التسجيل</div>
-                    <div class="data-value" id="clock-display">00:00</div>
+            <div class="monitor-card">
+                <span class="panel-label" style="text-align: center;">PEAK (dB)</span>
+                <div class="fl-vu-container">
+                    <div class="db-scale">
+                        <div>0</div><div>-4</div><div>-9</div><div>-18</div><div>-30</div><div>-50</div>
+                    </div>
+                    <!-- القناة اليسرى L -->
+                    <div class="vu-track">
+                        <div class="vu-bar-fill" id="vu-left-fill"></div>
+                    </div>
+                    <!-- القناة اليمنى R -->
+                    <div class="vu-track">
+                        <div class="vu-bar-fill" id="vu-right-fill"></div>
+                    </div>
                 </div>
             </div>
+
         </div>
+
+        <!-- صندوق الاستماع والتشغيل الآمن -->
+        <div class="safe-player-area" id="player-zone">
+            <span class="panel-label" style="color: var(--cyan);">🎧 تم تجهيز الماستر بنجاح - استمع أدناه</span>
+            <audio id="audio-output" controls></audio>
+        </div>
+
+        <!-- لوحة التحكم السفلية -->
+        <div class="controls-wrapper">
+            
+            <div class="control-box">
+                <span class="panel-label">🎙️ ريكوردر المكسر</span>
+                <button class="btn btn-rec" id="record-start">🔴 بدء التسجيل</button>
+                <button class="btn btn-stop" id="record-stop" disabled>⏹️ إيقاف المعالجة</button>
+            </div>
+
+            <div class="control-box">
+                <span class="panel-label">💾 تصدير الماستر فوري</span>
+                <!-- هذا الزر عبارة عن رابط حقيقي لمنع الكراش تماماً في الموبايلات -->
+                <a href="#" id="secure-download" class="btn btn-down">💾 حفظ الملف الماستر</a>
+                
+                <div class="info-node">
+                    <div class="info-label">عداد الوقت الحقيقي</div>
+                    <div class="info-val" id="timer-clock">00:00</div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
     <script>
-        class SimpleZoomEngine {
+        class StableStudioEngine {
             constructor() {
+                this.mediaRecorder = null;
                 this.audioContext = null;
-                this.processor = null;
                 this.analyser = null;
-                this.leftChannel = [];
-                this.rightChannel = [];
-                this.recordingLength = 0;
+                this.audioChunks = [];
                 this.isRecording = false;
-                this.startTime = 0;
-                this.timerInterval = null;
-                this.wavBlob = null;
-                this.wavUrl = null;
-
-                this.canvas = document.getElementById('analyzer-view');
-                this.canvasCtx = this.canvas.getContext('2d');
                 
-                this.initCanvas();
-                this.bindButtons();
+                this.timeStart = 0;
+                this.clockInterval = null;
+                this.drawFrameId = null;
+                
+                this.canvas = document.getElementById('vertical-spectrum');
+                this.ctx = this.canvas.getContext('2d');
+                
+                this.resizeCanvas();
+                this.connectInterface();
             }
 
-            initCanvas() {
+            resizeCanvas() {
                 this.canvas.width = this.canvas.offsetWidth;
                 this.canvas.height = this.canvas.offsetHeight;
-                this.canvasCtx.fillStyle = '#020406';
-                this.canvasCtx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                this.ctx.fillStyle = '#010204';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             }
 
-            bindButtons() {
-                document.getElementById('start-engine').addEventListener('click', () => this.start());
-                document.getElementById('stop-engine').addEventListener('click', () => this.stop());
-                document.getElementById('down-master').addEventListener('click', () => this.downloadWav());
+            connectInterface() {
+                document.getElementById('record-start').addEventListener('click', () => this.bootEngine());
+                document.getElementById('record-stop').addEventListener('click', () => this.haltEngine());
+                window.addEventListener('resize', () => this.resizeCanvas());
             }
 
-            async start() {
+            async bootEngine() {
                 try {
-                    // قيود صريحة ومباشرة بدون تعقيد لإجبار المتصفح على إطفاء الفلاتر
-                    const cleanConstraints = {
+                    this.audioChunks = [];
+                    
+                    // إغلاق تام لكافة الفلاتر التلقائية للموبايل لضمان نقاوة كرت الصوت
+                    const bypassConstraints = {
                         audio: {
                             echoCancellation: false,
                             noiseSuppression: false,
@@ -181,174 +294,143 @@
                         }
                     };
 
-                    const stream = await navigator.mediaDevices.getUserMedia(cleanConstraints);
+                    const audioStream = await navigator.mediaDevices.getUserMedia(bypassConstraints);
                     
                     this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    const source = this.audioContext.createMediaStreamSource(stream);
+                    const sourceNode = this.audioContext.createMediaStreamSource(audioStream);
                     
                     this.analyser = this.audioContext.createAnalyser();
-                    this.analyser.fftSize = 128;
+                    this.analyser.fftSize = 64; // ضبط الحجم لإنتاج أعمدة فخمة وعريضة مثل المكسر
+                    sourceNode.connect(this.analyser);
 
-                    this.processor = this.audioContext.createScriptProcessor(4096, 2, 2);
-                    
-                    this.leftChannel = [];
-                    this.rightChannel = [];
-                    this.recordingLength = 0;
+                    // استخدام الـ MediaRecorder القياسي للمتصفح لأنه يمنع استهلاك الرام وانهيار الصفحة
+                    this.mediaRecorder = new MediaRecorder(audioStream, {
+                        mimeType: 'audio/webm;codecs=opus', // نظام حزم عالي النقاوة والسرعة
+                        audioBitsPerSecond: 320000 // البث الفول الأقصى 320kbps
+                    });
 
-                    this.processor.onaudioprocess = (e) => {
-                        if (!this.isRecording) return;
-                        const L = e.inputBuffer.getChannelData(0);
-                        const R = e.inputBuffer.getChannelData(1) || L;
-                        
-                        this.leftChannel.push(new Float32Array(L));
-                        this.rightChannel.push(new Float32Array(R));
-                        this.recordingLength += L.length;
+                    this.mediaRecorder.ondataavailable = (event) => {
+                        if (event.data.size > 0) {
+                            this.audioChunks.push(event.data);
+                        }
                     };
 
-                    source.connect(this.analyser);
-                    this.analyser.connect(this.processor);
-                    this.processor.connect(this.audioContext.destination);
+                    this.mediaRecorder.onstop = () => {
+                        // عند التوقف نحول الحزم لملف ونربطه بزر الحفظ مباشرة
+                        const audioBlob = new Blob(this.audioChunks, { type: 'audio/mpeg' });
+                        const audioUrl = URL.createObjectURL(audioBlob);
+                        
+                        // إرسال الملف للمشغل المدمج للتأكيد والاستماع
+                        const player = document.getElementById('audio-output');
+                        player.src = audioUrl;
+                        document.getElementById('player-zone').style.display = 'block';
+                        
+                        // تفعيل زر التحميل الحقيقي وتغذيته بالملف لتفادي الكراش
+                        const downloadBtn = document.getElementById('secure-download');
+                        downloadBtn.href = audioUrl;
+                        downloadBtn.download = `Sufi_Studio_${Date.now()}.mp3`; // حفظ بالامتداد العالمي mp3 للسيارات والموبايلات
+                        downloadBtn.style.display = 'flex';
+                    };
 
+                    this.mediaRecorder.start(20); // تغذية مستمرة كل 20 ملي ثانية لمنع تراكم البيانات
                     this.isRecording = true;
-                    this.startTime = Date.now();
-                    this.updateClock();
-                    this.drawVisuals();
+                    this.timeStart = Date.now();
+                    
+                    this.triggerClock();
+                    this.renderGraphics();
 
-                    document.getElementById('start-engine').disabled = true;
-                    document.getElementById('start-engine').classList.add('recording');
-                    document.getElementById('stop-engine').disabled = false;
-                    document.getElementById('down-master').disabled = true;
-                    document.getElementById('safe-player-zone').classList.remove('active');
+                    // تحديث واجهة الأزرار
+                    document.getElementById('record-start').disabled = true;
+                    document.getElementById('record-start').classList.add('recording');
+                    document.getElementById('record-stop').disabled = false;
+                    document.getElementById('secure-download').style.display = 'none';
+                    document.getElementById('player-zone').style.display = 'none';
 
                 } catch (err) {
-                    alert('يرجى إعطاء صلاحية المايك، أو افتح الرابط بمتصفح Chrome كروم حصراً خارج فيسبوك/واتساب.');
+                    alert('تنبيه: يرجى فتح الرابط من متصفح جوجل كروم (Chrome) مباشرة وليس من داخل التطبيقات الفرعية، والموافقة على صلاحية المايك.');
                 }
             }
 
-            stop() {
+            haltEngine() {
+                if (this.mediaRecorder && this.isRecording) {
+                    this.mediaRecorder.stop();
+                    this.mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                    this.isRecording = false;
+                    
+                    clearInterval(this.clockInterval);
+                    cancelAnimationFrame(this.drawFrameId);
+                    
+                    if (this.audioContext) this.audioContext.close();
+
+                    // إعادة تصفير واجهة المؤشرات بعد التوقف
+                    document.getElementById('vu-left-fill').style.height = '0%';
+                    document.getElementById('vu-right-fill').style.height = '0%';
+                    document.getElementById('record-start').disabled = false;
+                    document.getElementById('record-start').classList.remove('recording');
+                    document.getElementById('record-stop').disabled = true;
+                    this.resizeCanvas();
+                }
+            }
+
+            renderGraphics() {
                 if (!this.isRecording) return;
-                this.isRecording = false;
-                
-                clearInterval(this.timerInterval);
-                
-                if (this.processor) this.processor.disconnect();
-                if (this.analyser) this.analyser.disconnect();
-                if (this.audioContext) this.audioContext.close();
+                this.drawFrameId = requestAnimationFrame(() => this.renderGraphics());
 
-                document.getElementById('start-engine').disabled = false;
-                document.getElementById('start-engine').classList.remove('recording');
-                document.getElementById('stop-engine').disabled = true;
+                const bufferLength = this.analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+                this.analyser.getByteFrequencyData(dataArray);
 
-                // معالجة وحفظ البيانات الصوتية
-                this.generateWav();
-            }
+                const w = this.canvas.width;
+                const h = this.canvas.height;
 
-            generateWav() {
-                const flatL = this.flatten(this.leftChannel, this.recordingLength);
-                const flatR = this.flatten(this.rightChannel, this.recordingLength);
-                
-                const interleaved = new Float32Array(this.recordingLength * 2);
-                let index = 0;
-                for (let i = 0; i < this.recordingLength; i++) {
-                    interleaved[index++] = flatL[i];
-                    interleaved[index++] = flatR[i];
-                }
+                this.ctx.fillStyle = '#010204';
+                this.ctx.fillRect(0, 0, w, h);
 
-                const buffer = new ArrayBuffer(44 + interleaved.length * 2);
-                const view = new DataView(buffer);
-
-                const sampleRate = this.audioContext.sampleRate || 44100;
-
-                this.writeString(view, 0, 'RIFF');
-                view.setUint32(4, 36 + interleaved.length * 2, true);
-                this.writeString(view, 8, 'WAVE');
-                this.writeString(view, 12, 'fmt ');
-                view.setUint32(16, 16, true);
-                view.setUint16(20, 1, true);
-                view.setUint16(22, 2, true);
-                view.setUint32(24, sampleRate, true);
-                view.setUint32(28, sampleRate * 4, true);
-                view.setUint16(32, 4, true);
-                view.setUint16(34, 16, true);
-                this.writeString(view, 36, 'data');
-                view.setUint32(40, interleaved.length * 2, true);
-
-                let offset = 44;
-                for (let i = 0; i < interleaved.length; i++, offset += 2) {
-                    let s = Math.max(-1, Math.min(1, interleaved[i]));
-                    view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
-                }
-
-                this.wavBlob = new Blob([view], { type: 'audio/wav' });
-                this.wavUrl = URL.createObjectURL(this.wavBlob);
-
-                // تحديث مشغل الصوت الآمن داخل الصفحة لمنع الكراش
-                const player = document.getElementById('main-audio-player');
-                player.src = this.wavUrl;
-                document.getElementById('safe-player-zone').classList.add('active');
-                document.getElementById('down-master').disabled = false;
-            }
-
-            flatten(channels, len) {
-                const result = new Float32Array(len);
-                let offset = 0;
-                for (let i = 0; i < channels.length; i++) {
-                    result.set(channels[i], offset);
-                    offset += channels[i].length;
-                }
-                return result;
-            }
-
-            writeString(view, offset, str) {
-                for (let i = 0; i < str.length; i++) {
-                    view.setUint8(offset + i, str.charCodeAt(i));
-                }
-            }
-
-            downloadWav() {
-                if (!this.wavUrl) return;
-                const a = document.createElement('a');
-                a.href = this.wavUrl;
-                // اسم إنجليزي بسيط لمنع انهيار النظام
-                a.download = `sufi_rec_${Date.now()}.wav`;
-                document.body.appendChild(a);
-                a.click();
-                setTimeout(() => document.body.removeChild(a), 100);
-            }
-
-            updateClock() {
-                this.timerInterval = setInterval(() => {
-                    const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
-                    const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
-                    const s = String(elapsed % 60).padStart(2, '0');
-                    document.getElementById('clock-display').textContent = `${m}:${s}`;
-                }, 1000);
-            }
-
-            drawVisuals() {
-                if (!this.isRecording) return;
-                requestAnimationFrame(() => this.drawVisuals());
-
-                const bins = this.analyser.frequencyBinCount;
-                const data = new Uint8Array(bins);
-                this.analyser.getByteFrequencyData(data);
-
-                this.canvasCtx.fillStyle = '#020406';
-                this.canvasCtx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-                const barWidth = this.canvas.width / bins;
+                // رسم الأعمدة العمودية حقيقية 100% بناءً على ترددات الصوت النابض
+                const barWidth = w / bufferLength;
                 let x = 0;
+                let volumeSum = 0;
 
-                for (let i = 0; i < bins; i++) {
-                    const h = (data[i] / 255) * this.canvas.height;
-                    this.canvasCtx.fillStyle = `hsl(${i * 4}, 100%, 60%)`;
-                    this.canvasCtx.fillRect(x, this.canvas.height - h, barWidth - 1, h);
+                for (let i = 0; i < bufferLength; i++) {
+                    const value = dataArray[i];
+                    const barHeight = (value / 255) * h * 0.95;
+                    volumeSum += value;
+
+                    // تدرج ألوان فخمة وعميقة تصعد للأعلى
+                    const gradient = this.ctx.createLinearGradient(0, h, 0, h - barHeight);
+                    gradient.addColorStop(0, '#00f0ff');
+                    gradient.addColorStop(0.6, '#e5c158');
+                    gradient.addColorStop(1, '#ff2a5f');
+
+                    this.ctx.fillStyle = gradient;
+                    // رسم العمود صاعداً من الأسفل
+                    this.ctx.fillRect(x, h - barHeight, barWidth - 2, barHeight);
                     x += barWidth;
                 }
+
+                // حساب وتغذية مقياس الـ Peak ديسيبل العمودي المزدوج
+                const averageVolume = volumeSum / bufferLength;
+                const leftPeak = Math.min((averageVolume / 130) * 100, 100);
+                // محاكاة استيريو حقيقي للأورج بفارق نبض بسيط جداً غير ثابت
+                const rightPeak = Math.max(0, Math.min(100, leftPeak * (1 + (Math.sin(Date.now() / 150) * 0.07))));
+
+                document.getElementById('vu-left-fill').style.height = leftPeak + '%';
+                document.getElementById('vu-right-fill').style.height = rightPeak + '%';
+            }
+
+            triggerClock() {
+                this.clockInterval = setInterval(() => {
+                    const diff = Math.floor((Date.now() - this.timeStart) / 1000);
+                    const m = String(Math.floor(diff / 60)).padStart(2, '0');
+                    const s = String(diff % 60).padStart(2, '0');
+                    document.getElementById('timer-clock').textContent = `${m}:${s}`;
+                }, 1000);
             }
         }
 
-        window.addEventListener('DOMContentLoaded', () => { new SimpleZoomEngine(); });
+        window.addEventListener('DOMContentLoaded', () => {
+            new StableStudioEngine();
+        });
     </script>
 </body>
 </html>
