@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ستوديو صوفي ال دليم | النسخة المستقرة للتطبيق</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Cairo:wght=400;700;900&display=swap" rel="stylesheet">
+    <title>ستوديو صوفي ال دليم | النسخة الاوفلاين بالكامل</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-main: #020406;
@@ -29,7 +29,6 @@
             align-items: center;
             justify-content: center;
             padding: 10px;
-            background-image: radial-gradient(circle at 50% 15%, rgba(229, 193, 88, 0.03) 0%, transparent 65%);
         }
 
         .studio-container {
@@ -80,24 +79,24 @@
 
         canvas {
             width: 100%;
-            height: 220px; /* زيادة الارتفاع لرؤية تدفق الموجة بشكل ممتاز */
+            height: 200px;
             background: #010204;
             display: block;
             border-radius: 4px;
         }
 
-        /* حالة السيرفر والتحميل */
-        .status-bar {
+        /* صندوق الاستماع الفوري الاوفلاين */
+        .player-zone {
             background: #05080e;
-            border: 1px solid rgba(0, 240, 255, 0.2);
-            border-radius: 6px;
-            padding: 10px;
-            font-size: 0.8rem;
-            text-align: center;
+            border: 1px dashed rgba(229, 193, 88, 0.3);
+            border-radius: 8px;
+            padding: 12px;
             margin-bottom: 15px;
-            color: var(--cyan);
             display: none;
+            text-align: center;
         }
+        .player-zone p { font-size: 0.8rem; color: var(--gold); margin-bottom: 8px; }
+        audio { width: 100%; }
 
         .controls-wrapper {
             display: grid;
@@ -112,7 +111,6 @@
             font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 0.85rem;
             cursor: pointer; transition: all 0.2s ease;
             display: flex; align-items: center; justify-content: center; gap: 6px;
-            text-decoration: none;
         }
 
         .btn-rec { background: #1a080c; color: var(--red); border: 1px solid rgba(255, 42, 95, 0.15); }
@@ -121,7 +119,7 @@
         @keyframes blink { 0% { opacity: 0.8; } 100% { opacity: 1; box-shadow: 0 0 12px var(--red); } }
         .btn-stop { background: #1e2530; color: #fff; }
 
-        /* زر حفظ التطبيقات الفوري بقوة السيرفر السحابي */
+        /* زر الحفظ الاوفلاين المباشر للموبايل */
         .btn-down { 
             background: var(--green); color: #000; 
             font-weight: 900;
@@ -141,40 +139,42 @@
     <div class="studio-container">
         
         <div class="header-section">
-            <h1 class="studio-title">صوفي ال دليم | CLOUD ENGINE V6</h1>
-            <p class="studio-subtitle">SCROLLING VERTICAL WAVE & APP BYPASS</p>
+            <h1 class="studio-title">صوفي ال دليم | OFFLINE ENGINE V8</h1>
+            <p class="studio-subtitle">LOCAL STEREO VERTICAL ENGINE</p>
         </div>
 
-        <!-- شاشات الموجات التناظرية العمودية المستمرة (تتحرك للأعلى مثل الـ FL Studio) -->
+        <!-- شاشات الموجات العمودية التناظرية الصاعدة -->
         <div class="hardware-display">
             <div class="monitor-card">
-                <span class="panel-label">🎚️ LEFT TRACK (تراك اليسار)</span>
+                <span class="panel-label">🎚️ LEFT CH (موجة اليسار)</span>
                 <canvas id="canvas-left"></canvas>
             </div>
             <div class="monitor-card">
-                <span class="panel-label">🎚️ RIGHT TRACK (تراك اليمين)</span>
+                <span class="panel-label">🎚️ RIGHT CH (موجة اليمين)</span>
                 <canvas id="canvas-right"></canvas>
             </div>
         </div>
 
-        <!-- شريط متابعة حالة الاتصال ومعالجة السيرفر للتطبيق -->
-        <div class="status-bar" id="status-display">جاري تهيئة النظام...</div>
+        <!-- مشغل الصوت الاوفلاين المباشر للتأكد من جودة الصوت قبل الحفظ -->
+        <div class="player-zone" id="player-area">
+            <p>🎧 استمع للمكس الستريو فوراً (بدون نت):</p>
+            <audio id="audio-output" controls></audio>
+        </div>
 
-        <!-- لوحة التحكم -->
+        <!-- لوحة التحكم الاوفلاين -->
         <div class="controls-wrapper">
             <div class="control-box">
-                <span class="panel-label">🎙️ ENGINE STATUS</span>
-                <button class="btn btn-rec" id="btn-start">🔴 تسجيل ستريو صافي</button>
+                <span class="panel-label">🎙️ STUDIO CONTROL</span>
+                <button class="btn btn-rec" id="btn-start">🔴 تسجيل ستريو</button>
                 <button class="btn btn-stop" id="btn-stop" disabled>⏹️ إيقاف ومعالجة</button>
             </div>
 
             <div class="control-box">
-                <span class="panel-label">💾 MOBILE DOWNLOAD</span>
-                <!-- زر التحميل الفوري باستجابة السيرفر لكسر حظر الحفظ -->
-                <a href="#" id="btn-download" class="btn btn-down">📥 حفظ ملف WAV للموبايل</a>
+                <span class="panel-label">💾 LOCAL EXPORT</span>
+                <button class="btn btn-down" id="btn-download">📥 حفظ ملف WAV للموبايل</button>
                 
                 <div class="info-node">
-                    <div class="info-label">وقت التسجيل</div>
+                    <div class="info-label">الوقت المنقضي</div>
                     <div class="info-val" id="txt-timer">00:00</div>
                 </div>
             </div>
@@ -183,7 +183,7 @@
     </div>
 
     <script>
-        class CloudAudioEngine {
+        class OfflineAudioEngine {
             constructor() {
                 this.audioContext = null;
                 this.processor = null;
@@ -199,10 +199,10 @@
                 this.startTime = 0;
                 this.timerId = null;
                 this.animId = null;
+                this.localBase64Data = ""; 
 
-                // مصفوفات حفظ تاريخ الموجة لإنتاج الحركة العمودية المستمرة
-                this.waveHistoryL = new Array(120).fill(0);
-                this.waveHistoryR = new Array(120).fill(0);
+                this.waveHistoryL = new Array(100).fill(0);
+                this.waveHistoryR = new Array(100).fill(0);
 
                 this.canL = document.getElementById('canvas-left');
                 this.canR = document.getElementById('canvas-right');
@@ -226,6 +226,7 @@
             bindUI() {
                 document.getElementById('btn-start').addEventListener('click', () => this.start());
                 document.getElementById('btn-stop').addEventListener('click', () => this.stop());
+                document.getElementById('btn-download').addEventListener('click', () => this.triggerOfflineDownload());
                 window.addEventListener('resize', () => this.initCanvases());
             }
 
@@ -281,20 +282,16 @@
                     this.startTime = Date.now();
                     
                     this.startClock();
-                    this.drawScrollingTrack();
+                    this.drawVerticalWaves();
 
                     document.getElementById('btn-start').disabled = true;
                     document.getElementById('btn-start').classList.add('recording');
                     document.getElementById('btn-stop').disabled = false;
                     document.getElementById('btn-download').style.display = 'none';
-                    
-                    const statusBar = document.getElementById('status-display');
-                    statusBar.style.display = 'block';
-                    statusBar.style.color = '#00f0ff';
-                    statusBar.textContent = '🎙️ جاري تسجيل الستريو الحي ومراقبة الموجات الصاعدة...';
+                    document.getElementById('player-area').style.display = 'none';
 
                 } catch (err) {
-                    alert('يرجى التأكد من إعطاء التطبيق صلاحية استخدام المايك من إعدادات الهاتف المتقدمة.');
+                    alert('يرجى إعطاء صلاحية المايك للتطبيق من إعدادات الهاتف لكي يعمل هندسة الستريو.');
                 }
             }
 
@@ -313,15 +310,10 @@
                 document.getElementById('btn-start').classList.remove('recording');
                 document.getElementById('btn-stop').disabled = true;
 
-                this.uploadAndExport();
+                this.compileWavOffline();
             }
 
-            uploadAndExport() {
-                const statusBar = document.getElementById('status-display');
-                statusBar.style.color = '#e5c158';
-                statusBar.textContent = '⚡ جاري هندسة الصوت وبناء تراك الـ WAV الستريو...';
-
-                // معالجة ملف الـ WAV الصافي
+            compileWavOffline() {
                 const flatL = this.mergeChunks(this.leftBuffer, this.bufferLength);
                 const flatR = this.mergeChunks(this.rightBuffer, this.bufferLength);
 
@@ -358,36 +350,36 @@
 
                 const blob = new Blob([view], { type: 'audio/wav' });
 
-                statusBar.textContent = '☁️ جاري توليد رابط التحميل المباشر للتطبيق تلقائياً...';
+                // تشغيل محلي اوفلاين فوري للمشغل
+                const localUrl = URL.createObjectURL(blob);
+                document.getElementById('audio-output').src = localUrl;
+                document.getElementById('player-area').style.display = 'block';
 
-                // إرسال ورفع فوري لملف الصوت إلى السيرفر لإنتاج رابط حقيقي يعبر حظر التطبيق
-                const formData = new FormData();
-                formData.append('file', blob, `Sufi_Studio_${Date.now()}.wav`);
-
-                fetch('https://file.io/?expires=1d', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        statusBar.style.color = '#00ff66';
-                        statusBar.textContent = '✅ جاهز! تم فك حظر النظام وتوليد الملف بنجاح.';
-                        
-                        const dlBtn = document.getElementById('btn-download');
-                        dlBtn.href = data.link; // الرابط الجديد أصبح الـ URL السحابي المباشر المدعوم من الهاتف
-                        dlBtn.style.display = 'flex';
-                    } else {
-                        statusBar.style.color = '#ff2a5f';
-                        statusBar.textContent = '❌ فشل الرفع التلقائي، يرجى المحاولة مرة أخرى.';
-                    }
-                })
-                .catch(err => {
-                    statusBar.style.color = '#ff2a5f';
-                    statusBar.textContent = '❌ مشكلة في الاتصال، تأكد من تشغيل الإنترنت داخل التطبيق.';
-                });
+                // تحويل البيانت اوفلاين كلياً إلى تيار باينري خام لكسر حظر المتصفح الداخلي
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const base64Str = reader.result.split(',')[1];
+                    // استخدام تطبيق/أوكتيت ستريم لإجبار نظام أندرويد على التحميل التلقائي
+                    this.localBase64Data = 'data:application/octet-stream;base64,' + base64Str;
+                    
+                    document.getElementById('btn-download').style.display = 'flex';
+                };
+                reader.readAsDataURL(blob);
 
                 this.initCanvases();
+            }
+
+            triggerOfflineDownload() {
+                if (!this.localBase64Data) return;
+
+                // إنشاء عنصر تحميل وهمي وحقنه بنظام الموبايل لإجبار الميكانزم الداخلي على الاستجابة فورا
+                const dummyLink = document.createElement('a');
+                dummyLink.href = this.localBase64Data;
+                dummyLink.download = `Sufi_Master_${Date.now()}.wav`;
+                
+                document.body.appendChild(dummyLink);
+                dummyLink.click(); // الضغطة البرمجية القسرية
+                document.body.removeChild(dummyLink);
             }
 
             mergeChunks(chunks, totalLen) {
@@ -406,9 +398,9 @@
                 }
             }
 
-            drawScrollingTrack() {
+            drawVerticalWaves() {
                 if (!this.isRecording) return;
-                this.animId = requestAnimationFrame(() => this.drawScrollingTrack());
+                this.animId = requestAnimationFrame(() => this.drawVerticalWaves());
 
                 const dataL = new Uint8Array(this.analyserL.fftSize);
                 this.analyserL.getByteTimeDomainData(dataL);
@@ -416,7 +408,6 @@
                 const dataR = new Uint8Array(this.analyserR.fftSize);
                 this.analyserR.getByteTimeDomainData(dataR);
 
-                // حساب قيمة الانحراف الأعلى (النبضة الصوتية) في هذا الجزء من الثانية
                 let maxL = 0, maxR = 0;
                 for (let i = 0; i < dataL.length; i++) {
                     let devL = Math.abs(dataL[i] - 128);
@@ -425,17 +416,16 @@
                     if (devR > maxR) maxR = devR;
                 }
 
-                // دفع القيمة لتتحرك للأعلى، وحذف القديمة لإنتاج تأثير التراك المستمر
                 this.waveHistoryL.push(maxL);
                 this.waveHistoryR.push(maxR);
-                if (this.waveHistoryL.length > 120) this.waveHistoryL.shift();
-                if (this.waveHistoryR.length > 120) this.waveHistoryR.shift();
+                if (this.waveHistoryL.length > 100) this.waveHistoryL.shift();
+                if (this.waveHistoryR.length > 100) this.waveHistoryR.shift();
 
-                this.renderScrollingWaveform(this.ctxL, this.canL, this.waveHistoryL, '#00f0ff');
-                this.renderScrollingWaveform(this.ctxR, this.canR, this.waveHistoryR, '#ff2a5f');
+                this.renderVerticalOscilloscope(this.ctxL, this.canL, this.waveHistoryL, '#00f0ff');
+                this.renderVerticalOscilloscope(this.ctxR, this.canR, this.waveHistoryR, '#ff2a5f');
             }
 
-            renderScrollingWaveform(ctx, canvas, history, neonColor) {
+            renderVerticalOscilloscope(ctx, canvas, history, neonColor) {
                 const w = canvas.width;
                 const h = canvas.height;
                 ctx.fillStyle = '#010204';
@@ -444,24 +434,15 @@
                 const midX = w / 2;
                 const step = h / history.length;
 
-                // رسم خط السنتر النحيف
-                ctx.strokeStyle = 'rgba(255,255,255,0.04)';
-                ctx.lineWidth = 1;
                 ctx.beginPath();
-                ctx.moveTo(midX, 0);
-                ctx.lineTo(midX, h);
-                ctx.stroke();
-
-                ctx.beginPath();
-                ctx.lineWidth = 2.5;
+                ctx.lineWidth = 3;
                 ctx.strokeStyle = neonColor;
                 ctx.shadowBlur = 8;
                 ctx.shadowColor = neonColor;
 
-                // رسم تراك الموجة المتناظرة الصاعدة عمودياً بالكامل
                 for (let i = 0; i < history.length; i++) {
                     let amp = (history[i] / 128) * (w / 2) * 0.95;
-                    let y = h - (i * step); // الحركة من الأسفل إلى الأعلى
+                    let y = h - (i * step);
 
                     if (i === 0) ctx.moveTo(midX - amp, y);
                     else ctx.lineTo(midX - amp, y);
@@ -473,9 +454,6 @@
                     ctx.lineTo(midX + amp, y);
                 }
 
-                ctx.closePath();
-                ctx.fillStyle = neonColor + '18'; // تعبئة نيون خفيفة جداً داخل التراك
-                ctx.fill();
                 ctx.stroke();
                 ctx.shadowBlur = 0;
             }
@@ -491,7 +469,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            new CloudAudioEngine();
+            new OfflineAudioEngine();
         });
     </script>
 </body>
