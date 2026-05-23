@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ستوديو صوفي ال دليم | النسخة الاوفلاين بالكامل</title>
+    <title>ستوديو صوفي ال دليم</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0a0d14">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -17,9 +19,7 @@
             --text: #f1f2f6;
             --border: rgba(229, 193, 88, 0.15);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: 'Cairo', sans-serif;
             background: var(--bg-main);
@@ -30,7 +30,6 @@
             justify-content: center;
             padding: 10px;
         }
-
         .studio-container {
             width: 100%;
             max-width: 680px;
@@ -41,32 +40,26 @@
             box-shadow: 0 25px 50px rgba(0,0,0,0.8);
             position: relative;
         }
-
         .studio-container::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
             background: linear-gradient(90deg, var(--red), var(--gold), var(--cyan));
             border-radius: 16px 16px 0 0;
         }
-
         .header-section { text-align: center; margin-bottom: 20px; }
         .studio-title { font-size: 1.4rem; font-weight: 900; color: var(--gold); text-shadow: 0 0 15px rgba(229, 193, 88, 0.3); }
         .studio-subtitle { font-size: 0.65rem; color: var(--cyan); font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
-
-        /* شاشات الموجات العمودية المتحركة */
         .hardware-display {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
             margin-bottom: 15px;
         }
-
         .monitor-card {
             background: var(--bg-monitor);
             border-radius: 10px;
             padding: 12px;
             border: 1px solid rgba(255,255,255,0.01);
         }
-
         .panel-label {
             font-family: 'Orbitron', sans-serif;
             font-size: 0.65rem;
@@ -76,7 +69,6 @@
             display: block;
             text-align: center;
         }
-
         canvas {
             width: 100%;
             height: 200px;
@@ -84,8 +76,6 @@
             display: block;
             border-radius: 4px;
         }
-
-        /* صندوق الاستماع الفوري الاوفلاين */
         .player-zone {
             background: #05080e;
             border: 1px dashed rgba(229, 193, 88, 0.3);
@@ -97,38 +87,29 @@
         }
         .player-zone p { font-size: 0.8rem; color: var(--gold); margin-bottom: 8px; }
         audio { width: 100%; }
-
         .controls-wrapper {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 12px;
         }
-
         .control-box { background: #0c0f17; border-radius: 8px; padding: 12px; border: 1px solid rgba(255,255,255,0.02); }
-
         .btn {
             width: 100%; padding: 12px; border: none; border-radius: 6px;
             font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 0.85rem;
             cursor: pointer; transition: all 0.2s ease;
             display: flex; align-items: center; justify-content: center; gap: 6px;
         }
-
         .btn-rec { background: #1a080c; color: var(--red); border: 1px solid rgba(255, 42, 95, 0.15); }
         .btn-rec.recording { background: var(--red); color: #fff; animation: blink 0.8s infinite alternate; }
-
         @keyframes blink { 0% { opacity: 0.8; } 100% { opacity: 1; box-shadow: 0 0 12px var(--red); } }
         .btn-stop { background: #1e2530; color: #fff; }
-
-        /* زر الحفظ الاوفلاين المباشر للموبايل */
         .btn-down { 
             background: var(--green); color: #000; 
             font-weight: 900;
             box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
             display: none; 
         }
-
         .btn:disabled { opacity: 0.1; cursor: not-allowed; }
-
         .info-node { background: var(--bg-monitor); padding: 8px; border-radius: 4px; border-right: 2px solid var(--gold); text-align: center; margin-top: 8px; }
         .info-label { font-size: 0.55rem; color: #54657a; }
         .info-val { font-family: 'Orbitron', monospace; font-size: 1rem; font-weight: 700; color: var(--gold); }
@@ -137,69 +118,67 @@
 <body>
 
     <div class="studio-container">
-        
         <div class="header-section">
-            <h1 class="studio-title">صوفي ال دليم | OFFLINE ENGINE V8</h1>
-            <p class="studio-subtitle">LOCAL STEREO VERTICAL ENGINE</p>
+            <h1 class="studio-title">صوفي ال دليم | PWA PRO</h1>
+            <p class="studio-subtitle">NATIVE OFFLINE STEREO ENGINE</p>
         </div>
 
-        <!-- شاشات الموجات العمودية التناظرية الصاعدة -->
         <div class="hardware-display">
             <div class="monitor-card">
-                <span class="panel-label">🎚️ LEFT CH (موجة اليسار)</span>
+                <span class="panel-label">🎚️ LEFT CH</span>
                 <canvas id="canvas-left"></canvas>
             </div>
             <div class="monitor-card">
-                <span class="panel-label">🎚️ RIGHT CH (موجة اليمين)</span>
+                <span class="panel-label">🎚️ RIGHT CH</span>
                 <canvas id="canvas-right"></canvas>
             </div>
         </div>
 
-        <!-- مشغل الصوت الاوفلاين المباشر للتأكد من جودة الصوت قبل الحفظ -->
         <div class="player-zone" id="player-area">
-            <p>🎧 استمع للمكس الستريو فوراً (بدون نت):</p>
+            <p>🎧 تشغيل المكس الستريو فوراً:</p>
             <audio id="audio-output" controls></audio>
         </div>
 
-        <!-- لوحة التحكم الاوفلاين -->
         <div class="controls-wrapper">
             <div class="control-box">
                 <span class="panel-label">🎙️ STUDIO CONTROL</span>
                 <button class="btn btn-rec" id="btn-start">🔴 تسجيل ستريو</button>
                 <button class="btn btn-stop" id="btn-stop" disabled>⏹️ إيقاف ومعالجة</button>
             </div>
-
             <div class="control-box">
-                <span class="panel-label">💾 LOCAL EXPORT</span>
-                <button class="btn btn-down" id="btn-download">📥 حفظ ملف WAV للموبايل</button>
-                
+                <span class="panel-label">💾 NATIVE EXPORT</span>
+                <button class="btn btn-down" id="btn-download">📥 حفظ ملف WAV بالجهاز</button>
                 <div class="info-node">
                     <div class="info-label">الوقت المنقضي</div>
                     <div class="info-val" id="txt-timer">00:00</div>
                 </div>
             </div>
         </div>
-
     </div>
 
     <script>
-        class OfflineAudioEngine {
+        // تسجيل الـ Service Worker لتفعيل وضع الـ أوفلاين كلياً
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+            .then(() => console.log("PWA Service Worker Registered Successfully"))
+            .catch(err => console.log("Service Worker Registration Failed", err));
+        }
+
+        class NativeAudioEngine {
             constructor() {
                 this.audioContext = null;
                 this.processor = null;
                 this.analyserL = null;
                 this.analyserR = null;
                 this.splitter = null;
-                
                 this.leftBuffer = [];
                 this.rightBuffer = [];
                 this.bufferLength = 0;
                 this.isRecording = false;
-                
                 this.startTime = 0;
                 this.timerId = null;
                 this.animId = null;
-                this.localBase64Data = ""; 
+                this.cleanWavBlob = null; 
 
                 this.waveHistoryL = new Array(100).fill(0);
                 this.waveHistoryR = new Array(100).fill(0);
@@ -217,16 +196,13 @@
                 [this.canL, this.canR].forEach(c => {
                     c.width = c.offsetWidth;
                     c.height = c.offsetHeight;
-                    const ctx = c.getContext('2d');
-                    ctx.fillStyle = '#010204';
-                    ctx.fillRect(0, 0, c.width, c.height);
                 });
             }
 
             bindUI() {
                 document.getElementById('btn-start').addEventListener('click', () => this.start());
                 document.getElementById('btn-stop').addEventListener('click', () => this.stop());
-                document.getElementById('btn-download').addEventListener('click', () => this.triggerOfflineDownload());
+                document.getElementById('btn-download').addEventListener('click', () => this.downloadNative());
                 window.addEventListener('resize', () => this.initCanvases());
             }
 
@@ -238,16 +214,9 @@
                     this.waveHistoryL.fill(0);
                     this.waveHistoryR.fill(0);
 
-                    const constraints = {
-                        audio: {
-                            channelCount: { ideal: 2 }, 
-                            echoCancellation: false,
-                            noiseSuppression: false,
-                            autoGainControl: false
-                        }
-                    };
-
-                    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        audio: { channelCount: 2, echoCancellation: false, noiseSuppression: false, autoGainControl: false }
+                    });
                     
                     this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
                     const source = this.audioContext.createMediaStreamSource(stream);
@@ -255,7 +224,6 @@
                     this.splitter = this.audioContext.createChannelSplitter(2);
                     this.analyserL = this.audioContext.createAnalyser();
                     this.analyserR = this.audioContext.createAnalyser();
-                    
                     this.analyserL.fftSize = 1024;
                     this.analyserR.fftSize = 1024;
 
@@ -264,12 +232,10 @@
                     this.splitter.connect(this.analyserR, 1); 
 
                     this.processor = this.audioContext.createScriptProcessor(4096, 2, 2);
-                    
                     this.processor.onaudioprocess = (e) => {
                         if (!this.isRecording) return;
                         const L = e.inputBuffer.getChannelData(0);
                         const R = e.inputBuffer.getChannelData(1) || L;
-
                         this.leftBuffer.push(new Float32Array(L));
                         this.rightBuffer.push(new Float32Array(R));
                         this.bufferLength += L.length;
@@ -280,7 +246,6 @@
 
                     this.isRecording = true;
                     this.startTime = Date.now();
-                    
                     this.startClock();
                     this.drawVerticalWaves();
 
@@ -289,16 +254,14 @@
                     document.getElementById('btn-stop').disabled = false;
                     document.getElementById('btn-download').style.display = 'none';
                     document.getElementById('player-area').style.display = 'none';
-
                 } catch (err) {
-                    alert('يرجى إعطاء صلاحية المايك للتطبيق من إعدادات الهاتف لكي يعمل هندسة الستريو.');
+                    alert('يرجى السماح بصلاحية المايكروفون المتطور.');
                 }
             }
 
             stop() {
                 if (!this.isRecording) return;
                 this.isRecording = false;
-
                 clearInterval(this.timerId);
                 cancelAnimationFrame(this.animId);
 
@@ -310,14 +273,14 @@
                 document.getElementById('btn-start').classList.remove('recording');
                 document.getElementById('btn-stop').disabled = true;
 
-                this.compileWavOffline();
+                this.compileWav();
             }
 
-            compileWavOffline() {
+            compileWav() {
                 const flatL = this.mergeChunks(this.leftBuffer, this.bufferLength);
                 const flatR = this.mergeChunks(this.rightBuffer, this.bufferLength);
-
                 const interleaved = new Float32Array(this.bufferLength * 2);
+                
                 let idx = 0;
                 for (let i = 0; i < this.bufferLength; i++) {
                     interleaved[idx++] = flatL[i];
@@ -348,63 +311,37 @@
                     view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
                 }
 
-                const blob = new Blob([view], { type: 'audio/wav' });
-
-                // تشغيل محلي اوفلاين فوري للمشغل
-                const localUrl = URL.createObjectURL(blob);
-                document.getElementById('audio-output').src = localUrl;
+                this.cleanWavBlob = new Blob([view], { type: 'audio/wav' });
+                
+                document.getElementById('audio-output').src = URL.createObjectURL(this.cleanWavBlob);
                 document.getElementById('player-area').style.display = 'block';
-
-                // تحويل البيانت اوفلاين كلياً إلى تيار باينري خام لكسر حظر المتصفح الداخلي
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    const base64Str = reader.result.split(',')[1];
-                    // استخدام تطبيق/أوكتيت ستريم لإجبار نظام أندرويد على التحميل التلقائي
-                    this.localBase64Data = 'data:application/octet-stream;base64,' + base64Str;
-                    
-                    document.getElementById('btn-download').style.display = 'flex';
-                };
-                reader.readAsDataURL(blob);
-
+                document.getElementById('btn-download').style.display = 'flex';
                 this.initCanvases();
             }
 
-            triggerOfflineDownload() {
-                if (!this.localBase64Data) return;
-
-                // إنشاء عنصر تحميل وهمي وحقنه بنظام الموبايل لإجبار الميكانزم الداخلي على الاستجابة فورا
-                const dummyLink = document.createElement('a');
-                dummyLink.href = this.localBase64Data;
-                dummyLink.download = `Sufi_Master_${Date.now()}.wav`;
-                
-                document.body.appendChild(dummyLink);
-                dummyLink.click(); // الضغطة البرمجية القسرية
-                document.body.removeChild(dummyLink);
+            downloadNative() {
+                if (!this.cleanWavBlob) return;
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(this.cleanWavBlob);
+                link.download = `Sufi_Master_${Date.now()}.wav`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
             }
 
-            mergeChunks(chunks, totalLen) {
-                const out = new Float32Array(totalLen);
-                let offset = 0;
-                for (let i = 0; i < chunks.length; i++) {
-                    out.set(chunks[i], offset);
-                    offset += chunks[i].length;
-                }
+            mergeChunks(c, len) {
+                const out = new Float32Array(len);
+                let off = 0;
+                for (let i = 0; i < c.length; i++) { out.set(c[i], off); off += c[i].length; }
                 return out;
             }
-
-            writeStr(v, off, str) {
-                for (let i = 0; i < str.length; i++) {
-                    v.setUint8(off + i, str.charCodeAt(i));
-                }
-            }
+            writeStr(v, off, str) { for (let i = 0; i < str.length; i++) { v.setUint8(off + i, str.charCodeAt(i)); } }
 
             drawVerticalWaves() {
                 if (!this.isRecording) return;
                 this.animId = requestAnimationFrame(() => this.drawVerticalWaves());
-
                 const dataL = new Uint8Array(this.analyserL.fftSize);
                 this.analyserL.getByteTimeDomainData(dataL);
-
                 const dataR = new Uint8Array(this.analyserR.fftSize);
                 this.analyserR.getByteTimeDomainData(dataR);
 
@@ -415,62 +352,37 @@
                     if (devL > maxL) maxL = devL;
                     if (devR > maxR) maxR = devR;
                 }
+                this.waveHistoryL.push(maxL); this.waveHistoryR.push(maxR);
+                if (this.waveHistoryL.length > 100) { this.waveHistoryL.shift(); this.waveHistoryR.shift(); }
 
-                this.waveHistoryL.push(maxL);
-                this.waveHistoryR.push(maxR);
-                if (this.waveHistoryL.length > 100) this.waveHistoryL.shift();
-                if (this.waveHistoryR.length > 100) this.waveHistoryR.shift();
-
-                this.renderVerticalOscilloscope(this.ctxL, this.canL, this.waveHistoryL, '#00f0ff');
-                this.renderVerticalOscilloscope(this.ctxR, this.canR, this.waveHistoryR, '#ff2a5f');
+                this.renderWave(this.ctxL, this.canL, this.waveHistoryL, '#00f0ff');
+                this.renderWave(this.ctxR, this.canR, this.waveHistoryR, '#ff2a5f');
             }
 
-            renderVerticalOscilloscope(ctx, canvas, history, neonColor) {
-                const w = canvas.width;
-                const h = canvas.height;
-                ctx.fillStyle = '#010204';
-                ctx.fillRect(0, 0, w, h);
-
-                const midX = w / 2;
-                const step = h / history.length;
-
-                ctx.beginPath();
-                ctx.lineWidth = 3;
-                ctx.strokeStyle = neonColor;
-                ctx.shadowBlur = 8;
-                ctx.shadowColor = neonColor;
-
-                for (let i = 0; i < history.length; i++) {
-                    let amp = (history[i] / 128) * (w / 2) * 0.95;
-                    let y = h - (i * step);
-
-                    if (i === 0) ctx.moveTo(midX - amp, y);
-                    else ctx.lineTo(midX - amp, y);
+            renderWave(ctx, can, hist, color) {
+                const w = can.width, h = can.height;
+                ctx.fillStyle = '#010204'; ctx.fillRect(0, 0, w, h);
+                const midX = w / 2, step = h / hist.length;
+                ctx.beginPath(); ctx.lineWidth = 3; ctx.strokeStyle = color;
+                for (let i = 0; i < hist.length; i++) {
+                    let amp = (hist[i] / 128) * (w / 2) * 0.95; let y = h - (i * step);
+                    if (i === 0) ctx.moveTo(midX - amp, y); else ctx.lineTo(midX - amp, y);
                 }
-
-                for (let i = history.length - 1; i >= 0; i--) {
-                    let amp = (history[i] / 128) * (w / 2) * 0.95;
-                    let y = h - (i * step);
+                for (let i = hist.length - 1; i >= 0; i--) {
+                    let amp = (hist[i] / 128) * (w / 2) * 0.95; let y = h - (i * step);
                     ctx.lineTo(midX + amp, y);
                 }
-
                 ctx.stroke();
-                ctx.shadowBlur = 0;
             }
 
             startClock() {
                 this.timerId = setInterval(() => {
                     const sec = Math.floor((Date.now() - this.startTime) / 1000);
-                    const m = String(Math.floor(sec / 60)).padStart(2, '0');
-                    const s = String(sec % 60).padStart(2, '0');
-                    document.getElementById('txt-timer').textContent = `${m}:${s}`;
+                    document.getElementById('txt-timer').textContent = `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`;
                 }, 1000);
             }
         }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            new OfflineAudioEngine();
-        });
+        window.addEventListener('DOMContentLoaded', () => { new NativeAudioEngine(); });
     </script>
 </body>
 </html>
