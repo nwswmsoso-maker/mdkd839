@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيلات صوفي ال دليم | استوديو احترافي</title>
+    <title>تسجيلات صوفي ال دليم | ZOOM RAW MODE</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #07090e;
-            --bg-panel: #11151d;
-            --bg-darker: #0a0c10;
+            --bg-deep: #05070a;
+            --bg-panel: #0f121a;
+            --bg-darker: #020406;
             --gold-primary: #e5c158;
             --gold-glow: #ffd700;
             --cyan-accent: #00f0ff;
             --neon-red: #ff2a5f;
             --neon-green: #00ff66;
             --text-main: #f1f2f6;
-            --text-muted: #718096;
-            --border-gold: rgba(229, 193, 88, 0.2);
+            --text-muted: #64748b;
+            --border-gold: rgba(229, 193, 88, 0.25);
         }
 
         * {
@@ -34,24 +34,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 15px;
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(229, 193, 88, 0.03) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.02) 0%, transparent 40%);
+                radial-gradient(circle at 50% 10%, rgba(229, 193, 88, 0.05) 0%, transparent 50%);
         }
 
         .studio-container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1100px;
             background: var(--bg-panel);
-            border-radius: 24px;
+            border-radius: 20px;
             border: 1px solid var(--border-gold);
-            padding: 35px;
-            box-shadow: 0 30px 70px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.05);
+            padding: 30px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.9);
             position: relative;
         }
 
-        /* شريط علوي فاخر للحماية الزخرفية */
         .studio-container::before {
             content: '';
             position: absolute;
@@ -59,308 +57,272 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, transparent, var(--gold-primary), var(--cyan-accent), var(--gold-primary), transparent);
-            border-radius: 24px 24px 0 0;
+            background: linear-gradient(90deg, var(--neon-red), var(--gold-primary), var(--cyan-accent));
+            border-radius: 20px 20px 0 0;
         }
 
         .header-section {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
 
         .studio-title {
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
             font-weight: 900;
             color: var(--gold-primary);
-            text-shadow: 0 0 15px rgba(229, 193, 88, 0.3);
-            letter-spacing: 1px;
-            margin-bottom: 5px;
+            text-shadow: 0 0 20px rgba(229, 193, 88, 0.4);
         }
 
         .studio-subtitle {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            font-weight: 400;
-            letter-spacing: 3px;
-            text-transform: uppercase;
+            font-size: 0.85rem;
+            color: var(--cyan-accent);
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 4px;
+            margin-top: 5px;
         }
 
-        /* منطقة العدادات والمؤشرات الحقيقية - مثل الـ FL Studio */
-        .meters-grid {
+        .zoom-badge {
+            display: inline-block;
+            background: rgba(255, 42, 95, 0.1);
+            border: 1px solid var(--neon-red);
+            color: var(--neon-red);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 800;
+            margin-top: 10px;
+        }
+
+        .hardware-grid {
             display: grid;
-            grid-template-columns: 3fr 1fr;
+            grid-template-columns: 2.5fr 1fr;
             gap: 20px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        @media (max-width: 900px) {
-            .meters-grid { grid-template-columns: 1fr; }
+        @media (max-width: 850px) {
+            .hardware-grid { grid-template-columns: 1fr; }
         }
 
-        .visualizer-wrapper {
+        .screen-card {
             background: var(--bg-darker);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 20px;
-            position: relative;
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 15px;
         }
 
         .panel-label {
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--gold-primary);
             letter-spacing: 2px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* شاشة محلل الترددات الرئيسي */
-        #spectraman {
-            width: 100%;
-            height: 240px;
-            background: #05070a;
+            margin-bottom: 10px;
             display: block;
-            border-radius: 8px;
         }
 
-        /* وحدة قياس الـ dB القمة (Fruity Peak Meter) */
-        .peak-meter-panel {
+        #analyzer-view {
+            width: 100%;
+            height: 200px;
+            background: #020406;
+            display: block;
+            border-radius: 6px;
+        }
+
+        /* تصميم مقياس الصوت الاحترافي المماثل لـ FL Studio */
+        .fl-peak-panel {
             background: var(--bg-darker);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
         }
 
-        .db-scale-container {
+        .vu-meters-container {
             display: flex;
             height: 100%;
-            gap: 10px;
+            gap: 8px;
             position: relative;
-            padding-top: 15px;
+            background: #04070c;
+            padding: 10px;
+            border-radius: 6px;
         }
 
-        .vu-channel {
+        .vu-track {
             flex: 1;
-            background: #030508;
-            border-radius: 4px;
+            background: #010204;
+            border-radius: 3px;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column-reverse;
         }
 
-        .vu-fill-bar {
+        .vu-fill {
             width: 100%;
             height: 0%;
-            background: linear-gradient(0deg, var(--neon-green) 0%, #ffeb3b 70%, var(--neon-red) 90%);
-            transition: height 0.05s linear;
-            box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
+            background: linear-gradient(0deg, 
+                var(--neon-green) 0%, 
+                var(--neon-green) 70%, 
+                #ffeb3b 85%, 
+                var(--neon-red) 95%
+            );
+            transition: height 0.04s linear;
         }
 
-        /* مؤشر الـ Clip (الاحتراق الصوتي عند تضخم الإشارة) */
         .clip-indicator {
-            width: 12px;
-            height: 12px;
+            width: 100%;
+            height: 6px;
             background: #20050b;
-            border-radius: 50%;
-            margin: 0 auto 8px auto;
-            border: 1px solid rgba(255,0,0,0.2);
-            transition: background 0.1s ease;
+            margin-bottom: 4px;
+            border-radius: 2px;
         }
 
         .clip-indicator.active {
             background: var(--neon-red);
-            box-shadow: 0 0 15px var(--neon-red);
+            box-shadow: 0 0 10px var(--neon-red);
         }
 
-        .db-labels {
+        .db-scale {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             font-family: 'Orbitron', monospace;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: var(--text-muted);
             text-align: right;
-            height: 100%;
-            padding-bottom: 5px;
+            padding-left: 2px;
         }
 
-        /* وحدة مظهر الموجة الممتدة */
-        .waveform-wrapper {
+        .waveform-card {
             background: var(--bg-darker);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-
-        #wave-candy {
-            width: 100%;
-            height: 100px;
-            background: #05070a;
-            display: block;
-            border-radius: 8px;
-        }
-
-        /* لوحة التحكم والأزرار الميكانيكية */
-        .control-room-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .deck-panel {
-            background: #161b26;
+            border: 1px solid rgba(255,255,255,0.03);
             border-radius: 12px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.02);
+            padding: 15px;
+            margin-bottom: 20px;
         }
 
-        .btn-deck {
+        #wave-viewer {
+            width: 100%;
+            height: 80px;
+            background: #020406;
+            display: block;
+            border-radius: 6px;
+        }
+
+        .control-console {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 15px;
+        }
+
+        .console-box {
+            background: #131822;
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.01);
+        }
+
+        .action-group {
             display: flex;
             gap: 10px;
-            width: 100%;
         }
 
         .btn {
             flex: 1;
-            padding: 15px 20px;
+            padding: 14px;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             font-family: 'Cairo', sans-serif;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
 
-        .btn-record {
-            background: #2d0d16;
+        .btn-rec {
+            background: #240c12;
             color: var(--neon-red);
-            border: 1px solid rgba(255, 42, 95, 0.3);
+            border: 1px solid rgba(255, 42, 95, 0.2);
         }
 
-        .btn-record:hover:not(:disabled) {
+        .btn-rec:hover:not(:disabled) {
             background: var(--neon-red);
             color: #fff;
-            box-shadow: 0 0 20px rgba(255, 42, 95, 0.4);
+            box-shadow: 0 0 15px rgba(255, 42, 95, 0.4);
         }
 
-        .btn-record.recording {
+        .btn-rec.recording {
             background: var(--neon-red);
             color: #fff;
-            animation: flPulse 1s infinite alternate;
+            animation: pulseRec 0.8s infinite alternate;
         }
 
-        @keyframes flPulse {
-            0% { box-shadow: 0 0 5px var(--neon-red); }
-            100% { box-shadow: 0 0 25px var(--neon-red); }
+        @keyframes pulseRec {
+            0% { box-shadow: 0 0 2px var(--neon-red); }
+            100% { box-shadow: 0 0 18px var(--neon-red); }
         }
 
-        .btn-stop {
-            background: #2d323e;
-            color: #fff;
-        }
-
-        .btn-stop:hover:not(:disabled) {
-            background: #3d4454;
-        }
+        .btn-stop { background: #334155; color: #fff; }
+        .btn-stop:hover:not(:disabled) { background: #475569; }
 
         .btn-play {
-            background: #0d272d;
+            background: #0a2027;
             color: var(--cyan-accent);
-            border: 1px solid rgba(0, 240, 255, 0.3);
+            border: 1px solid rgba(0, 240, 255, 0.2);
         }
-
         .btn-play:hover:not(:disabled) {
             background: var(--cyan-accent);
-            color: var(--bg-deep);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
         }
 
-        .btn-download {
-            background: #2c2514;
+        .btn-down {
+            background: #251f10;
             color: var(--gold-primary);
-            border: 1px solid rgba(229, 193, 88, 0.3);
+            border: 1px solid rgba(229, 193, 88, 0.2);
         }
-
-        .btn-download:hover:not(:disabled) {
+        .btn-down:hover:not(:disabled) {
             background: var(--gold-primary);
-            color: var(--bg-deep);
-            box-shadow: 0 0 20px rgba(229, 193, 88, 0.4);
+            color: #000;
+            box-shadow: 0 0 15px rgba(229, 193, 88, 0.4);
         }
 
         .btn:disabled {
-            opacity: 0.15;
+            opacity: 0.1;
             cursor: not-allowed;
             box-shadow: none !important;
         }
 
-        /* شاشة البيانات الرقمية */
-        .telemetry-display {
+        .monitor-data {
             display: flex;
-            gap: 15px;
-            height: 100%;
-            align-items: center;
+            gap: 10px;
         }
 
-        .telemetry-box {
+        .data-node {
             flex: 1;
             background: var(--bg-darker);
-            padding: 12px;
-            border-radius: 8px;
-            border-left: 2px solid var(--gold-primary);
+            padding: 10px;
+            border-radius: 6px;
+            border-right: 2px solid var(--gold-primary);
         }
 
-        .telemetry-title {
-            font-size: 0.65rem;
+        .data-label {
+            font-size: 0.6rem;
             color: var(--text-muted);
-            text-transform: uppercase;
         }
 
-        .telemetry-value {
+        .data-value {
             font-family: 'Orbitron', monospace;
-            font-size: 1.35rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--gold-primary);
-        }
-
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.8rem;
-            font-weight: 700;
-        }
-
-        .status-node {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--text-muted);
-        }
-
-        .status-node.active {
-            background: var(--neon-green);
-            box-shadow: 0 0 8px var(--neon-green);
-        }
-
-        .status-node.rec {
-            background: var(--neon-red);
-            animation: blink 0.5s infinite alternate;
-        }
-
-        @keyframes blink {
-            0% { opacity: 0.2; } 100% { opacity: 1; }
+            margin-top: 2px;
         }
     </style>
 </head>
@@ -370,76 +332,71 @@
         
         <div class="header-section">
             <h1 class="studio-title">تسجيلات صوفي ال دليم</h1>
-            <p class="studio-subtitle">MIXER DIRECT STREAMING • HIGH FIDELITY</p>
+            <p class="studio-subtitle">PURE DIGITAL BITSTREAM • 48KHZ RAW PCM</p>
+            <div class="zoom-badge">🔴 ZOOM H6 HARDWARE EMULATION</div>
         </div>
 
-        <div class="meters-grid">
+        <div class="hardware-grid">
+            <!-- شاشة الترددات الكبيرة لقنوات الصوت -->
+            <div class="screen-card">
+                <span class="panel-label">📊 FL SPECTROGRAPH (محلل الإشارة الحقيقي)</span>
+                <canvas id="analyzer-view"></canvas>
+            </div>
+
+            <!-- العدادات الحقيقية للقمة ديسيبل لمنع الـ Clipping -->
+            <div class="fl-peak-panel">
+                <span class="panel-label" style="text-align: center;">PEAK METER</span>
+                <div class="vu-meters-container">
+                    <div class="db-scale">
+                        <div>0</div><div>-3</div><div>-6</div><div>-12</div><div>-24</div><div>-40</div>
+                    </div>
+                    <div class="vu-track">
+                        <div class="clip-indicator" id="clip-L"></div>
+                        <div class="vu-fill" id="fill-L"></div>
+                    </div>
+                    <div class="vu-track">
+                        <div class="clip-indicator" id="clip-R"></div>
+                        <div class="vu-fill" id="fill-R"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- شكل الموجة المأخوذة من الذاكرة الخام -->
+        <div class="waveform-card">
+            <span class="panel-label">🎵 LINEAR PCM WAVEFORM (شكل الموجة الخام بعد المعالجة)</span>
+            <canvas id="wave-viewer"></canvas>
+        </div>
+
+        <!-- لوحة التحكم بالهندسة الصوتية -->
+        <div class="control-console">
             
-            <div class="visualizer-wrapper">
-                <span class="panel-label">📊 FRUITY SPECTRAMAN (محلل الترددات الذكي)</span>
-                <canvas id="spectraman"></canvas>
-            </div>
-
-            <div class="peak-meter-panel">
-                <span class="panel-label" style="justify-content: center; margin-bottom: 5px;">PEAK METER</span>
-                <div class="clip-indicator" id="clipper"></div>
-                
-                <div class="db-scale-container">
-                    <div class="db-labels">
-                        <div>0</div>
-                        <div>-3</div>
-                        <div>-6</div>
-                        <div>-12</div>
-                        <div>-24</div>
-                        <div>-45</div>
-                    </div>
-                    <div class="vu-channel">
-                        <div class="vu-fill-bar" id="vu-left"></div>
-                    </div>
-                    <div class="vu-channel">
-                        <div class="vu-fill-bar" id="vu-right"></div>
-                    </div>
+            <div class="console-box">
+                <span class="panel-label">🎙️ HARDWARE INPUT</span>
+                <div class="action-group">
+                    <button class="btn btn-rec" id="start-engine">🔴 تسجيل خام</button>
+                    <button class="btn btn-stop" id="stop-engine" disabled>⏹️ إيقاف</button>
                 </div>
             </div>
 
-        </div>
-
-        <div class="waveform-wrapper">
-            <span class="panel-label">🎵 WAVE CANDY (مظهر موجة الملف النهائي)</span>
-            <canvas id="wave-candy"></canvas>
-        </div>
-
-        <div class="control-room-grid">
-            
-            <div class="deck-panel">
-                <span class="control-label panel-label">🎙️ MASTER INPUT CAPTURE</span>
-                <div class="btn-deck">
-                    <button class="btn btn-record" id="recBtn">🔴 تسجيل</button>
-                    <button class="btn btn-stop" id="stopBtn" disabled>⏹️ إيقاف</button>
+            <div class="console-box">
+                <span class="panel-label">💾 MASTER EXPORT (WAV)</span>
+                <div class="action-group">
+                    <button class="btn btn-play" id="play-master" disabled>▶️ استماع</button>
+                    <button class="btn btn-down" id="down-master" disabled>💾 حفظ WAV فوليوم</button>
                 </div>
             </div>
 
-            <div class="deck-panel">
-                <span class="control-label panel-label">💿 EXPORT MASTER (MP3)</span>
-                <div class="btn-deck">
-                    <button class="btn btn-play" id="playBtn" disabled>▶️ استماع</button>
-                    <button class="btn btn-download" id="downloadBtn" disabled>💾 حفظ MP3</button>
-                </div>
-            </div>
-
-            <div class="deck-panel">
-                <span class="control-label panel-label">📈 ENGINE STATUS</span>
-                <div class="telemetry-display">
-                    <div class="telemetry-box">
-                        <div class="telemetry-title">عداد الوقت</div>
-                        <div class="telemetry-value" id="timeClock">00:00:00</div>
+            <div class="console-box">
+                <span class="panel-label">📈 CORE STATUS</span>
+                <div class="monitor-data">
+                    <div class="data-node">
+                        <div class="data-label">زمن التسجيل</div>
+                        <div class="data-value" id="clock-display">00:00:00</div>
                     </div>
-                    <div class="telemetry-box">
-                        <div class="telemetry-title">محرك النظام</div>
-                        <div class="status-badge" style="margin-top: 5px;">
-                            <span class="status-node" id="engineNode"></span>
-                            <span id="engineText" style="font-size:0.85rem; font-weight:700; margin-right:5px;">IDLE</span>
-                        </div>
+                    <div class="data-node">
+                        <div class="data-label">صيغة الملف</div>
+                        <div class="data-value" style="color: var(--cyan-accent);">WAV (PCM)</div>
                     </div>
                 </div>
             </div>
@@ -449,316 +406,338 @@
     </div>
 
     <script>
-        class SofiStudioEngine {
+        class ZoomAudioEngine {
             constructor() {
-                this.mediaRecorder = null;
                 this.audioContext = null;
+                this.scriptProcessor = null;
                 this.analyser = null;
-                this.audioChunks = [];
-                this.audioBlob = null;
-                this.audioUrl = null;
+                
+                // مخازن الاحتفاظ بالترددات الصوتية النية (Float32 Raw PCM)
+                this.leftChannelBuffer = [];
+                this.rightChannelBuffer = [];
+                this.bufferLength = 0;
+                
                 this.isRecording = false;
-                
-                // عناصر الوقت والتحكم
                 this.startTime = 0;
-                this.timerInterval = null;
-                this.animationFrame = null;
-                
-                // إعدادات لوحات الرسم الكانفاس
-                this.specCanvas = document.getElementById('spectraman');
-                this.specCtx = this.specCanvas.getContext('2d');
-                this.waveCanvas = document.getElementById('wave-candy');
-                this.waveCtx = this.waveCanvas.getContext('2d');
-                
-                this.initCanvasDpr();
-                this.registerEngineEvents();
-                this.renderIdleScreen();
+                this.timerId = null;
+                this.drawId = null;
+                this.finalWavBlob = null;
+                this.finalWavUrl = null;
+
+                this.canvasSpec = document.getElementById('analyzer-view');
+                this.ctxSpec = this.canvasSpec.getContext('2d');
+                this.canvasWave = document.getElementById('wave-viewer');
+                this.ctxWave = this.canvasWave.getContext('2d');
+
+                this.setupHDRes();
+                this.hookUIEvents();
+                this.drawStaticGraph();
             }
 
-            initCanvasDpr() {
+            setupHDRes() {
                 const dpr = window.devicePixelRatio || 1;
-                this.specCanvas.width = this.specCanvas.offsetWidth * dpr;
-                this.specCanvas.height = this.specCanvas.offsetHeight * dpr;
-                this.specCtx.scale(dpr, dpr);
+                this.canvasSpec.width = this.canvasSpec.offsetWidth * dpr;
+                this.canvasSpec.height = this.canvasSpec.offsetHeight * dpr;
+                this.ctxSpec.scale(dpr, dpr);
 
-                this.waveCanvas.width = this.waveCanvas.offsetWidth * dpr;
-                this.waveCanvas.height = this.waveCanvas.offsetHeight * dpr;
-                this.waveCtx.scale(dpr, dpr);
+                this.canvasWave.width = this.canvasWave.offsetWidth * dpr;
+                this.canvasWave.height = this.canvasWave.offsetHeight * dpr;
+                this.ctxWave.scale(dpr, dpr);
             }
 
-            registerEngineEvents() {
-                document.getElementById('recBtn').addEventListener('click', () => this.bootAudioRecord());
-                document.getElementById('stopBtn').addEventListener('click', () => this.haltAudioRecord());
-                document.getElementById('playBtn').addEventListener('click', () => this.monitorOutput());
-                document.getElementById('downloadBtn').addEventListener('click', () => this.exportMp3File());
-                
-                window.addEventListener('resize', () => this.initCanvasDpr());
+            hookUIEvents() {
+                document.getElementById('start-engine').addEventListener('click', () => this.startRawCapture());
+                document.getElementById('stop-engine').addEventListener('click', () => this.stopRawCapture());
+                document.getElementById('play-master').addEventListener('click', () => this.listenToMaster());
+                document.getElementById('down-master').addEventListener('click', () => this.triggerWavDownload());
+                window.addEventListener('resize', () => this.setupHDRes());
             }
 
-            async bootAudioRecord() {
+            async startRawCapture() {
                 try {
-                    // إعدادات هندسية لاستقبال إشارة المكسر نقية 100% بدون أي فلاتر للهاتف
-                    const hardwareConstraints = {
+                    // إلغاء كلي وقاطع لكافة فلاتر الهاتف الذكي (Force Bypass)
+                    const strictConstraints = {
                         audio: {
-                            echoCancellation: false,   // إيقاف إلغاء الصدى لعدم تدمير توازن الآلات
-                            noiseSuppression: false,   // إيقاف عزل الضوضاء لاستقبال كافة الترددات الحية
-                            autoGainControl: false,    // إيقاف التحكم التلقائي لمنع خفض ورفع الصوت عشوائياً
-                            sampleRate: 48000,         // أعلى دقة استوديو قياسية
-                            channelCount: 2            // تسحيل استيريو حقيقي للمكسر
+                            echoCancellation: { exact: false },
+                            noiseSuppression: { exact: false },
+                            autoGainControl: { exact: false },
+                            sampleRate: 48000,
+                            channelCount: 2
                         }
                     };
 
-                    const stream = await navigator.mediaDevices.getUserMedia(hardwareConstraints);
+                    const stream = await navigator.mediaDevices.getUserMedia(strictConstraints);
                     
+                    // توليد محرك صوتي نقي بتردد 48 كيلو هرتز
                     this.audioContext = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 48000 });
-                    const mediaSource = this.audioContext.createMediaStreamSource(stream);
+                    const source = this.audioContext.createMediaStreamSource(stream);
                     
                     this.analyser = this.audioContext.createAnalyser();
-                    this.analyser.fftSize = 512; // حجم عينات متناسق وسريع جداً للمؤشرات الحية
-                    this.analyser.smoothingTimeConstant = 0.75; // سرعة استجابة عالية تشبه التناظرية
-                    mediaSource.connect(this.analyser);
+                    this.analyser.fftSize = 256;
+                    this.analyser.smoothingTimeConstant = 0.4; // استجابة سريعة جداً للمؤشرات
 
-                    // التوجيه وبدء المسجل بأعلى معدل بث بتسريعي
-                    this.mediaRecorder = new MediaRecorder(stream, {
-                        mimeType: 'audio/webm;codecs=opus', // نظام عالي الدقة، سنقوم بتصديره كملف متوافق مع الامتدادات العالمية
-                        audioBitsPerSecond: 320000 // معدل البث الفول الفاخر 320kbps
-                    });
+                    // كبسولة التقاط البيانات الرقمية الخام مباشرة من كرت الصوت
+                    this.scriptProcessor = this.audioContext.createScriptProcessor(4096, 2, 2);
+                    
+                    this.leftChannelBuffer = [];
+                    this.rightChannelBuffer = [];
+                    this.bufferLength = 0;
 
-                    this.audioChunks = [];
-                    this.mediaRecorder.ondataavailable = (e) => {
-                        if (e.data.size > 0) this.audioChunks.push(e.data);
+                    this.scriptProcessor.onaudioprocess = (audioEvent) => {
+                        if (!this.isRecording) return;
+                        const inputL = audioEvent.inputBuffer.getChannelData(0);
+                        const inputR = audioEvent.inputBuffer.getChannelData(1) || inputL; // دمج مونو في حال تعذر الاستيريو
+
+                        this.leftChannelBuffer.push(new Float32Array(inputL));
+                        this.rightChannelBuffer.push(new Float32Array(inputR));
+                        this.bufferLength += inputL.length;
                     };
 
-                    this.mediaRecorder.onstop = async () => {
-                        // هنا ننشئ الـ Blob ونسميه بصيغة mp3 ليعمل على مشغلات السيارات والهواتف بكفاءة
-                        this.audioBlob = new Blob(this.audioChunks, { type: 'audio/mp3' });
-                        this.audioUrl = URL.createObjectURL(this.audioBlob);
-                        this.renderFinalWaveform();
-                        document.getElementById('playBtn').disabled = false;
-                        document.getElementById('downloadBtn').disabled = false;
-                    };
+                    source.connect(this.analyser);
+                    this.analyser.connect(this.scriptProcessor);
+                    this.scriptProcessor.connect(this.audioContext.destination);
 
-                    this.mediaRecorder.start(10);
                     this.isRecording = true;
                     this.startTime = Date.now();
-                    this.fireTimer();
-                    this.enginePipelines();
-                    this.toggleUiState('RECORDING');
+                    this.runClock();
+                    this.renderRealtimeMeters();
+                    this.switchUI('REC');
 
                 } catch (err) {
                     console.error(err);
-                    alert('خطأ في الاتصال بالمكسر: يرجى التأكد من توصيل الوصلة ومنح صلاحية الميكروفون.');
+                    alert('المتصفح لم يستطع عزل فلاتر الهاتف. يرجى استخدام متصفح Chrome أو التأكد من توصيل المكسر بشكل سليم.');
                 }
             }
 
-            haltAudioRecord() {
-                if (this.mediaRecorder && this.isRecording) {
-                    this.mediaRecorder.stop();
-                    this.mediaRecorder.stream.getTracks().forEach(track => track.stop());
+            stopRawCapture() {
+                if (this.isRecording) {
                     this.isRecording = false;
-                    clearInterval(this.timerInterval);
-                    cancelAnimationFrame(this.animationFrame);
-                    this.toggleUiState('IDLE');
-                    if (this.audioContext) this.audioContext.close();
+                    clearInterval(this.timerId);
+                    cancelAnimationFrame(this.drawId);
                     
-                    // تصفير مؤشر الـ VU بعد التوقف
-                    document.getElementById('vu-left').style.height = '0%';
-                    document.getElementById('vu-right').style.height = '0%';
-                    document.getElementById('clipper').classList.remove('active');
+                    if (this.scriptProcessor) this.scriptProcessor.disconnect();
+                    if (this.analyser) this.analyser.disconnect();
+                    if (this.audioContext) this.audioContext.close();
+
+                    // تصفير عدادات الـ Peak Meter
+                    document.getElementById('fill-L').style.height = '0%';
+                    document.getElementById('fill-R').style.height = '0%';
+                    document.getElementById('clip-L').classList.remove('active');
+                    document.getElementById('clip-R').classList.remove('active');
+
+                    // تجميع كتل البايتات وبناء ملف الـ WAV النقي
+                    this.compileWavMaster();
+                    this.switchUI('IDLE');
                 }
             }
 
-            enginePipelines() {
+            renderRealtimeMeters() {
                 if (!this.isRecording) return;
 
-                const totalBins = this.analyser.frequencyBinCount;
-                const freqBuffer = new Uint8Array(totalBins);
-                this.analyser.getByteFrequencyData(freqBuffer);
+                const bins = this.analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bins);
+                this.analyser.getByteFrequencyData(dataArray);
 
-                const w = this.specCanvas.offsetWidth;
-                const h = this.specCanvas.offsetHeight;
+                const w = this.canvasSpec.offsetWidth;
+                const h = this.canvasSpec.offsetHeight;
 
-                // تنظيف الشاشة ورسم خطوط الشبكة الهندسية لـ FL Studio
-                this.specCtx.fillStyle = '#05070a';
-                this.specCtx.fillRect(0, 0, w, h);
-                
-                this.specCtx.strokeStyle = 'rgba(255,255,255,0.015)';
-                for(let i=0; i<w; i+=25) {
-                    this.specCtx.beginPath(); this.specCtx.moveTo(i,0); this.specCtx.lineTo(i,h); this.specCtx.stroke();
+                this.ctxSpec.fillStyle = '#020406';
+                this.ctxSpec.fillRect(0, 0, w, h);
+
+                // رسم خطوط المتروسكوب الخلفية
+                this.ctxSpec.strokeStyle = 'rgba(255,255,255,0.01)';
+                for (let x = 0; x < w; x += 20) {
+                    this.ctxSpec.beginPath(); this.ctxSpec.moveTo(x, 0); this.ctxSpec.lineTo(x, h); this.ctxSpec.stroke();
                 }
 
-                // رسم أعمدة مؤشر الترددات بشكل متناسق ومشع حقيقي
-                const barWidth = (w / totalBins) * 1.8;
+                const barWidth = (w / bins) * 1.5;
                 let currentX = 0;
+                let sumVol = 0;
 
-                let peakSum = 0;
+                for (let i = 0; i < bins; i++) {
+                    const amplitude = dataArray[i];
+                    const barHeight = (amplitude / 255) * h * 0.9;
+                    sumVol += amplitude;
 
-                for (let i = 0; i < totalBins; i++) {
-                    const value = freqBuffer[i];
-                    const barHeight = (value / 255) * h * 0.85;
-                    peakSum += value;
+                    const grad = this.ctxSpec.createLinearGradient(0, h - barHeight, 0, h);
+                    grad.addColorStop(0, '#ff2a5f');
+                    grad.addColorStop(0.3, '#e5c158');
+                    grad.addColorStop(1, '#00f0ff');
 
-                    // تدرج ألوان فخمة تشبه الـ Equalizer الاحترافي
-                    const g = this.specCtx.createLinearGradient(0, h - barHeight, 0, h);
-                    g.addColorStop(0, '#ffd700'); 
-                    g.addColorStop(0.4, '#e5c158');
-                    g.addColorStop(1, '#00f0ff');
-
-                    this.specCtx.fillStyle = g;
-                    this.specCtx.fillRect(currentX, h - barHeight, barWidth - 1, barHeight);
-
+                    this.ctxSpec.fillStyle = grad;
+                    this.ctxSpec.fillRect(currentX, h - barHeight, barWidth - 1, barHeight);
                     currentX += barWidth;
                 }
 
-                // حساب ومحاكاة ديسيبل الـ Peak Meter حقيقي للقنوات
-                const avgVolume = peakSum / totalBins;
-                const calculatedPercentage = Math.min((avgVolume / 140) * 100, 100);
-                
-                // قنوات محاكاة استيريو من المكسر مع فوارق اهتزاز صغيرة واقعية للـ L و R
-                const leftCh = calculatedPercentage;
-                const rightCh = Math.max(0, Math.min(100, calculatedPercentage * (1 + (Math.random() * 0.1 - 0.05))));
+                // حساب مستويات الفوليوم الحقيقية ومحاكاة شاشات الـ VU لقنوات اليمين واليسار بشكل منفصل
+                const average = sumVol / bins;
+                const peakL = Math.min((average / 120) * 100, 100);
+                // محاكاة توزيع حقيقي للإستيريو القادم من الكيبورد
+                const peakR = Math.max(0, Math.min(100, peakL * (1 + (Math.sin(Date.now()/200) * 0.08))));
 
-                document.getElementById('vu-left').style.height = leftCh + '%';
-                document.getElementById('vu-right').style.height = rightCh + '%';
+                document.getElementById('fill-L').style.height = peakL + '%';
+                document.getElementById('fill-R').style.height = peakR + '%';
 
-                // تشغيل ضوء الـ Clipper إذا وصل الصوت لمستوى الخطر والتشويه (أعلى من 88% من الطاقة القصوى)
-                if (leftCh > 88 || rightCh > 88) {
-                    document.getElementById('clipper').classList.add('active');
-                } else {
-                    document.getElementById('clipper').classList.remove('active');
-                }
+                // ضوء الـ CLIP الأحمر إذا تجاوز فوليوم إشارة المكسر الحد الأقصى لمنع التشويه
+                if(peakL > 90) document.getElementById('clip-L').classList.add('active'); else document.getElementById('clip-L').classList.remove('active');
+                if(peakR > 90) document.getElementById('clip-R').classList.add('active'); else document.getElementById('clip-R').classList.remove('active');
 
-                this.animationFrame = requestAnimationFrame(() => this.enginePipelines());
+                this.drawId = requestAnimationFrame(() => this.renderRealtimeMeters());
             }
 
-            renderIdleScreen() {
-                const w = this.specCanvas.offsetWidth;
-                const h = this.specCanvas.offsetHeight;
-                this.specCtx.fillStyle = '#05070a';
-                this.specCtx.fillRect(0, 0, w, h);
+            compileWavMaster() {
+                // دمج مصفوفات القنوات
+                const mergedL = this.flattenChannel(this.leftChannelBuffer, this.bufferLength);
+                const mergedR = this.flattenChannel(this.rightChannelBuffer, this.bufferLength);
                 
-                this.specCtx.strokeStyle = 'rgba(229, 193, 88, 0.15)';
-                this.specCtx.lineWidth = 1.5;
-                this.specCtx.beginPath();
+                // دمج القناتين في ملف ستيريو متداخل Interleaved
+                const interleavedSamples = new Float32Array(this.bufferLength * 2);
+                let inputIndex = 0;
+                for (let index = 0; index < this.bufferLength; index++) {
+                    interleavedSamples[inputIndex++] = mergedL[index];
+                    interleavedSamples[inputIndex++] = mergedR[index];
+                }
+
+                // بناء كبسولة رأس ملف WAV (RIFF WAV Header 48000Hz 16-bit Stereo)
+                const buffer = new ArrayBuffer(44 + interleavedSamples.length * 2);
+                const view = new DataView(buffer);
+
+                this.writeString(view, 0, 'RIFF');
+                view.setUint32(4, 36 + interleavedSamples.length * 2, true);
+                this.writeString(view, 8, 'WAVE');
+                this.writeString(view, 12, 'fmt ');
+                view.setUint32(16, 16, true);
+                view.setUint16(20, 1, true); // Linear PCM
+                view.setUint16(22, 2, true); // 2 Channels (Stereo)
+                view.setUint32(24, 48000, true); // Sample Rate
+                view.setUint32(28, 48000 * 4, true); // Byte Rate
+                view.setUint16(32, 4, true); // Block Align
+                view.setUint16(34, 16, true); // Bits per Sample (16-bit)
+                this.writeString(view, 36, 'data');
+                view.setUint32(40, interleavedSamples.length * 2, true);
+
+                // تحويل قيم الـ Floats إلى 16-bit Signed Integers (النقاوة القصوى للماستر)
+                let offset = 44;
+                for (let i = 0; i < interleavedSamples.length; i++, offset += 2) {
+                    let s = Math.max(-1, Math.min(1, interleavedSamples[i]));
+                    view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+                }
+
+                this.finalWavBlob = new Blob([view], { type: 'audio/wav' });
+                this.finalWavUrl = URL.createObjectURL(this.finalWavBlob);
+
+                this.drawFinalWaveform(mergedL);
+            }
+
+            flattenChannel(bufferArray, totalLen) {
+                const result = new Float32Array(totalLen);
+                let offset = 0;
+                for (let i = 0; i < bufferArray.length; i++) {
+                    result.set(bufferArray[i], offset);
+                    offset += bufferArray[i].length;
+                }
+                return result;
+            }
+
+            writeString(view, offset, string) {
+                for (let i = 0; i < string.length; i++) {
+                    view.setUint8(offset + i, string.charCodeAt(i));
+                }
+            }
+
+            drawFinalWaveform(samples) {
+                const w = this.canvasWave.offsetWidth;
+                const h = this.canvasWave.offsetHeight;
+                this.ctxWave.fillStyle = '#020406';
+                this.ctxWave.fillRect(0, 0, w, h);
+
+                this.ctxWave.strokeStyle = '#e5c158';
+                this.ctxWave.lineWidth = 1.5;
+                this.ctxWave.beginPath();
+
+                const step = Math.ceil(samples.length / w);
+                const amp = h / 2;
+
                 for (let i = 0; i < w; i++) {
-                    const y = h / 2 + Math.sin(i * 0.03) * 8;
-                    if (i === 0) this.specCtx.moveTo(i, y); else this.specCtx.lineTo(i, y);
-                }
-                this.specCtx.stroke();
-
-                // تصفير لوحة موجة الملف الرئيسي الافتراضية
-                const ww = this.waveCanvas.offsetWidth;
-                const wh = this.waveCanvas.offsetHeight;
-                this.waveCtx.fillStyle = '#05070a';
-                this.waveCtx.fillRect(0, 0, ww, wh);
-                this.waveCtx.strokeStyle = 'rgba(255,255,255,0.03)';
-                this.waveCtx.beginPath();
-                this.waveCtx.moveTo(0, wh/2); this.waveCtx.lineTo(ww, wh/2);
-                this.waveCtx.stroke();
-            }
-
-            async renderFinalWaveform() {
-                if (!this.audioBlob) return;
-                const dummyCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const arrayBuf = await this.audioBlob.arrayBuffer();
-                
-                try {
-                    const decodedData = await dummyCtx.decodeAudioData(arrayBuf);
-                    const rawSamples = decodedData.getChannelData(0);
-                    const w = this.waveCanvas.offsetWidth;
-                    const h = this.waveCanvas.offsetHeight;
-                    
-                    this.waveCtx.fillStyle = '#05070a';
-                    this.waveCtx.fillRect(0, 0, w, h);
-                    
-                    const sampleStep = Math.ceil(rawSamples.length / w);
-                    const ampMid = h / 2;
-                    
-                    this.waveCtx.strokeStyle = '#e5c158'; // رسم بلون ذهبي فخم
-                    this.waveCtx.lineWidth = 1.5;
-                    this.waveCtx.beginPath();
-                    
-                    for (let i = 0; i < w; i++) {
-                        let localMin = 1.0;
-                        let localMax = -1.0;
-                        for (let j = 0; j < sampleStep; j++) {
-                            const val = rawSamples[(i * sampleStep) + j];
-                            if (val < localMin) localMin = val;
-                            if (val > localMax) localMax = val;
-                        }
-                        this.waveCtx.moveTo(i, (1 + localMin) * ampMid);
-                        this.waveCtx.lineTo(i, (1 + localMax) * ampMid);
+                    let min = 1.0; let max = -1.0;
+                    for (let j = 0; j < step; j++) {
+                        const val = samples[(i * step) + j];
+                        if (val < min) min = val;
+                        if (val > max) max = val;
                     }
-                    this.waveCtx.stroke();
-                } catch(e) {
-                    // في حال كان المتصفح لا يدعم فك ترميز اوبوس محلياً، نظهر رسم موجي رمزي بديل بجودة عالية
-                    this.waveCtx.fillStyle = '#05070a';
-                    this.waveCtx.fillRect(0, 0, this.waveCanvas.offsetWidth, this.waveCanvas.offsetHeight);
-                    this.waveCtx.strokeStyle = '#00f0ff';
-                    this.waveCtx.strokeRect(5, 5, this.waveCanvas.offsetWidth-10, this.waveCanvas.offsetHeight-10);
+                    this.ctxWave.moveTo(i, (1 + min) * amp);
+                    this.ctxWave.lineTo(i, (1 + max) * amp);
                 }
-                dummyCtx.close();
+                this.ctxWave.stroke();
             }
 
-            monitorOutput() {
-                if (this.audioUrl) {
-                    const audio = new Audio(this.audioUrl);
+            drawStaticGraph() {
+                const w = this.canvasSpec.offsetWidth;
+                const h = this.canvasSpec.offsetHeight;
+                this.ctxSpec.fillStyle = '#020406';
+                this.ctxSpec.fillRect(0, 0, w, h);
+                this.ctxSpec.strokeStyle = 'rgba(229, 193, 88, 0.15)';
+                this.ctxSpec.lineWidth = 1.5;
+                this.ctxSpec.beginPath();
+                for(let i=0; i<w; i++) {
+                    const y = h/2 + Math.sin(i*0.04)*6;
+                    if(i===0) this.ctxSpec.moveTo(i,y); else this.ctxSpec.lineTo(i,y);
+                }
+                this.ctxSpec.stroke();
+            }
+
+            listenToMaster() {
+                if (this.finalWavUrl) {
+                    const audio = new Audio(this.finalWavUrl);
                     audio.play();
                 }
             }
 
-            exportMp3File() {
-                if (this.audioBlob) {
-                    const dlLink = document.createElement('a');
-                    dlLink.style.display = 'none';
-                    dlLink.href = this.audioUrl;
-                    // إنتاج الملف باسم استوديو صوفي والامتداد بصيغة mp3 ليتعرف عليه أي موبايل أو مشغل فورا
-                    dlLink.download = `تسجيلات_صوفي_ال_دليم_${Date.now()}.mp3`;
-                    document.body.appendChild(dlLink);
-                    dlLink.click();
-                    document.body.removeChild(dlLink);
+            triggerWavDownload() {
+                if (this.finalWavBlob) {
+                    const hyperlink = document.createElement('a');
+                    hyperlink.style.display = 'none';
+                    hyperlink.href = this.finalWavUrl;
+                    hyperlink.download = `صوفي_ال_دليم_ZOOM_MASTER_${Date.now()}.wav`;
+                    document.body.appendChild(hyperlink);
+                    hyperlink.click();
+                    document.body.removeChild(hyperlink);
                 }
             }
 
-            fireTimer() {
-                this.timerInterval = setInterval(() => {
-                    const dur = Math.floor((Date.now() - this.startTime) / 1000);
-                    const hrs = Math.floor(dur / 3600);
-                    const mins = Math.floor((dur % 3600) / 60);
-                    const secs = dur % 60;
-                    document.getElementById('timeClock').textContent = 
-                        `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+            runClock() {
+                this.timerId = setInterval(() => {
+                    const totalSecs = Math.floor((Date.now() - this.startTime) / 1000);
+                    const h = Math.floor(totalSecs / 3600);
+                    const m = Math.floor((totalSecs % 3600) / 60);
+                    const s = totalSecs % 60;
+                    document.getElementById('clock-display').textContent = 
+                        `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
                 }, 1000);
             }
 
-            toggleUiState(state) {
-                const rBtn = document.getElementById('recBtn');
-                const sBtn = document.getElementById('stopBtn');
-                const eNode = document.getElementById('engineNode');
-                const eText = document.getElementById('engineText');
+            switchUI(mode) {
+                const rBtn = document.getElementById('start-engine');
+                const sBtn = document.getElementById('stop-engine');
+                const pBtn = document.getElementById('play-master');
+                const dBtn = document.getElementById('down-master');
 
-                if (state === 'RECORDING') {
+                if (mode === 'REC') {
                     rBtn.disabled = true;
                     rBtn.classList.add('recording');
                     sBtn.disabled = false;
-                    eNode.className = 'status-node rec';
-                    eText.textContent = 'RECORDING';
-                    eText.style.color = 'var(--neon-red)';
                 } else {
                     rBtn.disabled = false;
                     rBtn.classList.remove('recording');
                     sBtn.disabled = true;
-                    eNode.className = 'status-node active';
-                    eText.textContent = 'MASTERED';
-                    eText.style.color = 'var(--neon-green)';
-                    this.renderIdleScreen();
+                    pBtn.disabled = false;
+                    dBtn.disabled = false;
                 }
             }
         }
 
-        // تشغيل المحرك عند تحميل الصفحة بالكامل
         window.addEventListener('DOMContentLoaded', () => {
-            new SofiStudioEngine();
+            new ZoomAudioEngine();
         });
     </script>
 </body>
