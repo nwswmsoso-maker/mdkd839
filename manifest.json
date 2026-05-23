@@ -1,0 +1,16 @@
+{
+  "name": "Sufi Studio Mobile",
+  "short_name": "SufiStudio",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#020406",
+  "theme-color": "#0a0d14",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3050/3050227.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
