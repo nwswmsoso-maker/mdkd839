@@ -1,448 +1,769 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ستوديو صوفي ال دليم | مخصص للتطبيق</title>
-    <link href="https://fonts.googleapis.com/css2=family=Orbitron:wght@500;700;900&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-main: #020406;
-            --bg-panel: #0a0d14;
-            --bg-monitor: #010203;
-            --gold: #e5c158;
-            --cyan: #00f0ff;
-            --red: #ff2a5f;
-            --text: #f1f2f6;
-            --text-dim: #4b596c;
-            --border: rgba(229, 193, 88, 0.15);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<title>SOFI AL DULAIM | STUDIO V6 PRO</title>
 
-        body {
-            font-family: 'Cairo', sans-serif;
-            background: var(--bg-main);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-            background-image: radial-gradient(circle at 50% 15%, rgba(229, 193, 88, 0.03) 0%, transparent 65%);
-        }
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
-        .studio-container {
-            width: 100%;
-            max-width: 680px;
-            background: var(--bg-panel);
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            padding: 20px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-            position: relative;
-        }
+<style>
 
-        .studio-container::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, var(--red), var(--gold), var(--cyan));
-            border-radius: 16px 16px 0 0;
-        }
+:root{
+    --bg:#020406;
+    --panel:#0a0d14;
+    --monitor:#010203;
+    --gold:#e5c158;
+    --cyan:#00f0ff;
+    --red:#ff2a5f;
+    --green:#00ff95;
+    --text:#f1f2f6;
+}
 
-        .header-section { text-align: center; margin-bottom: 20px; }
-        .studio-title { font-size: 1.5rem; font-weight: 900; color: var(--gold); text-shadow: 0 0 15px rgba(229, 193, 88, 0.3); }
-        .studio-subtitle { font-size: 0.65rem; color: var(--cyan); font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        /* شاشات الموجات العمودية الحقيقية */
-        .hardware-display {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
+body{
+    background:var(--bg);
+    font-family:'Cairo',sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:10px;
+    color:white;
+}
 
-        .monitor-card {
-            background: var(--bg-monitor);
-            border-radius: 10px;
-            padding: 12px;
-            border: 1px solid rgba(255,255,255,0.01);
-        }
+.studio{
+    width:100%;
+    max-width:900px;
+    background:var(--panel);
+    border-radius:20px;
+    border:1px solid rgba(229,193,88,.12);
+    padding:20px;
+    box-shadow:0 30px 60px rgba(0,0,0,.8);
+    position:relative;
+    overflow:hidden;
+}
 
-        .panel-label {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.65rem;
-            color: var(--gold);
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-            display: block;
-            text-align: center;
-        }
+.studio::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:3px;
+    background:linear-gradient(90deg,var(--red),var(--gold),var(--cyan));
+}
 
-        canvas {
-            width: 100%;
-            height: 180px; /* زيادة الارتفاع لتبين الموجة بوضوح */
-            background: #010204;
-            display: block;
-            border-radius: 4px;
-        }
+.header{
+    text-align:center;
+    margin-bottom:20px;
+}
 
-        /* صندوق التشغيل الآمن والتنزيل البديل داخل التطبيقات */
-        .safe-player-area {
-            background: #05080e;
-            border: 1px dashed var(--cyan);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 15px;
-            display: none;
-            text-align: center;
-        }
-        .safe-player-area p { font-size: 0.75rem; color: #ffee55; margin-bottom: 5px; }
-        audio { width: 100%; margin-top: 5px; }
+.title{
+    font-size:2rem;
+    color:var(--gold);
+    font-weight:900;
+    text-shadow:0 0 20px rgba(229,193,88,.25);
+}
 
-        .controls-wrapper {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
-        }
+.sub{
+    font-family:'Orbitron',sans-serif;
+    font-size:.7rem;
+    color:var(--cyan);
+    letter-spacing:3px;
+}
 
-        .control-box { background: #0c0f17; border-radius: 8px; padding: 12px; border: 1px solid rgba(255,255,255,0.02); }
+.display{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    margin-bottom:15px;
+}
 
-        .btn {
-            width: 100%; padding: 12px; border: none; border-radius: 6px;
-            font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 0.85rem;
-            cursor: pointer; transition: all 0.2s ease;
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-            text-decoration: none;
-        }
+.monitor{
+    background:#000;
+    border-radius:14px;
+    padding:10px;
+    border:1px solid rgba(255,255,255,.04);
+}
 
-        .btn-rec { background: #1a080c; color: var(--red); border: 1px solid rgba(255, 42, 95, 0.15); }
-        .btn-rec:hover:not(:disabled) { background: var(--red); color: #fff; }
-        .btn-rec.recording { background: var(--red); color: #fff; animation: blink 0.8s infinite alternate; }
+.label{
+    display:block;
+    text-align:center;
+    margin-bottom:8px;
+    font-size:.7rem;
+    color:var(--gold);
+    font-family:'Orbitron',sans-serif;
+}
 
-        @keyframes blink { 0% { opacity: 0.8; } 100% { opacity: 1; box-shadow: 0 0 12px var(--red); } }
-        .btn-stop { background: #1e2530; color: #fff; }
-        .btn-stop:hover:not(:disabled) { background: #2d3746; }
+canvas{
+    width:100%;
+    height:340px;
+    background:#010204;
+    border-radius:10px;
+    display:block;
+}
 
-        /* زر التحميل المتوافق مع AppCreator24 */
-        .btn-down { 
-            background: #251f10; color: var(--gold); 
-            border: 1px solid rgba(229, 193, 88, 0.2); 
-            display: none; 
-        }
-        .btn-down:hover { background: var(--gold); color: #000; font-weight: 900; }
+.meters{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    margin-top:10px;
+}
 
-        .btn:disabled { opacity: 0.1; cursor: not-allowed; }
+.peak{
+    height:12px;
+    width:100%;
+    background:#111;
+    border-radius:20px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.04);
+}
 
-        .info-node { background: var(--bg-monitor); padding: 8px; border-radius: 4px; border-right: 2px solid var(--gold); text-align: center; margin-top: 8px; }
-        .info-label { font-size: 0.55rem; color: var(--text-dim); }
-        .info-val { font-family: 'Orbitron', monospace; font-size: 1rem; font-weight: 700; color: var(--gold); }
-    </style>
+.peak-fill{
+    height:100%;
+    width:0%;
+    transition:.05s;
+    background:linear-gradient(90deg,var(--green),var(--gold),var(--red));
+}
+
+.controls{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+    margin-top:20px;
+}
+
+.box{
+    background:#0c0f17;
+    border-radius:12px;
+    padding:15px;
+    border:1px solid rgba(255,255,255,.03);
+}
+
+.btn{
+    width:100%;
+    border:none;
+    border-radius:10px;
+    padding:14px;
+    cursor:pointer;
+    font-family:'Cairo',sans-serif;
+    font-weight:700;
+    font-size:.95rem;
+    margin-bottom:10px;
+    transition:.2s;
+}
+
+.rec{
+    background:#22070d;
+    color:var(--red);
+}
+
+.rec:hover{
+    background:var(--red);
+    color:white;
+}
+
+.recording{
+    background:var(--red)!important;
+    color:white!important;
+    animation:blink .7s infinite alternate;
+}
+
+.stop{
+    background:#1c2330;
+    color:white;
+}
+
+.stop:hover{
+    background:#303b4d;
+}
+
+.download{
+    background:#251f10;
+    color:var(--gold);
+    display:none;
+}
+
+.download:hover{
+    background:var(--gold);
+    color:black;
+}
+
+@keyframes blink{
+    from{
+        opacity:.7;
+    }
+    to{
+        opacity:1;
+        box-shadow:0 0 20px var(--red);
+    }
+}
+
+.timer{
+    text-align:center;
+    margin-top:10px;
+    background:#05070c;
+    padding:12px;
+    border-radius:10px;
+}
+
+.timer small{
+    display:block;
+    color:#5c6675;
+    margin-bottom:5px;
+}
+
+.timer span{
+    font-family:'Orbitron',sans-serif;
+    font-size:1.3rem;
+    color:var(--gold);
+    font-weight:700;
+}
+
+.safe-player{
+    display:none;
+    margin-top:20px;
+    background:#060910;
+    border:1px dashed var(--cyan);
+    border-radius:12px;
+    padding:15px;
+}
+
+.safe-player p{
+    text-align:center;
+    color:#ffee55;
+    margin-bottom:10px;
+}
+
+audio{
+    width:100%;
+}
+
+@media(max-width:700px){
+
+.display{
+    grid-template-columns:1fr;
+}
+
+canvas{
+    height:240px;
+}
+
+}
+
+</style>
 </head>
+
 <body>
 
-    <div class="studio-container">
-        
-        <div class="header-section">
-            <h1 class="studio-title">صوفي ال دليم | APP ENGINE V5</h1>
-            <p class="studio-subtitle">TRUE STEREO VERTICAL WAVE</p>
+<div class="studio">
+
+<div class="header">
+    <div class="title">صوفي ال دليم | STUDIO V6</div>
+    <div class="sub">TRUE STEREO ENGINE</div>
+</div>
+
+<div class="display">
+
+    <div class="monitor">
+        <span class="label">LEFT CHANNEL</span>
+        <canvas id="left"></canvas>
+
+        <div class="meters">
+            <div class="peak">
+                <div class="peak-fill" id="meterL"></div>
+            </div>
         </div>
+    </div>
 
-        <!-- قسم شاشات الموجات الصوتية العمودية الحقيقية (يسار ويمين) -->
-        <div class="hardware-display">
-            <div class="monitor-card">
-                <span class="panel-label">🎵 LEFT WAVE (موجة اليسار)</span>
-                <canvas id="canvas-left"></canvas>
-            </div>
-            <div class="monitor-card">
-                <span class="panel-label">🎵 RIGHT WAVE (موجة اليمين)</span>
-                <canvas id="canvas-right"></canvas>
+    <div class="monitor">
+        <span class="label">RIGHT CHANNEL</span>
+        <canvas id="right"></canvas>
+
+        <div class="meters">
+            <div class="peak">
+                <div class="peak-fill" id="meterR"></div>
             </div>
         </div>
+    </div>
 
-        <!-- مشغل الصوت الآمن داخل التطبيق للتشغيل والحفظ الاحتياطي -->
-        <div class="safe-player-area" id="player-zone">
-            <p>💡 جاري التحميل.. يمكنك الاستماع للمكس أو الضغط هنا مطولاً للحفظ:</p>
-            <audio id="audio-output" controls></audio>
-        </div>
+</div>
 
-        <!-- لوحة الأزرار والتحكم السفلية -->
-        <div class="controls-wrapper">
-            <div class="control-box">
-                <span class="panel-label">🎙️ STEREO INPUT</span>
-                <button class="btn btn-rec" id="btn-start">🔴 تسجيل ستريو</button>
-                <button class="btn btn-stop" id="btn-stop" disabled>⏹️ إيقاف ومعالجة</button>
-            </div>
+<div class="controls">
 
-            <div class="control-box">
-                <span class="panel-label">💾 APPLICATION EXPORT</span>
-                <!-- هذا الرابط أصبح مدعوماً من الـ WebView ومباشر -->
-                <a href="#" id="btn-download" class="btn btn-down">💾 حفظ ملف WAV الآن</a>
-                
-                <div class="info-node">
-                    <div class="info-label">الوقت المنقضي</div>
-                    <div class="info-val" id="txt-timer">00:00</div>
-                </div>
-            </div>
+    <div class="box">
+
+        <button class="btn rec" id="startBtn">
+            🔴 تسجيل احترافي
+        </button>
+
+        <button class="btn stop" id="stopBtn" disabled>
+            ⏹️ إيقاف ومعالجة
+        </button>
+
+    </div>
+
+    <div class="box">
+
+        <a class="btn download" id="downloadBtn">
+            💾 تحميل WAV
+        </a>
+
+        <div class="timer">
+            <small>الوقت</small>
+            <span id="timer">00:00</span>
         </div>
 
     </div>
 
-    <script>
-        class ApplicationAudioEngine {
-            constructor() {
-                this.audioContext = null;
-                this.processor = null;
-                this.analyserL = null;
-                this.analyserR = null;
-                this.splitter = null;
-                
-                this.leftBuffer = [];
-                this.rightBuffer = [];
-                this.bufferLength = 0;
-                this.isRecording = false;
-                
-                this.startTime = 0;
-                this.timerId = null;
-                this.animId = null;
+</div>
 
-                this.canL = document.getElementById('canvas-left');
-                this.canR = document.getElementById('canvas-right');
-                this.ctxL = this.canL.getContext('2d');
-                this.ctxR = this.canR.getContext('2d');
+<div class="safe-player" id="playerZone">
 
-                this.initCanvases();
-                this.bindUI();
-            }
+    <p>🎧 الاستماع للتسجيل</p>
 
-            initCanvases() {
-                [this.canL, this.canR].forEach(c => {
-                    c.width = c.offsetWidth;
-                    c.height = c.offsetHeight;
-                    const ctx = c.getContext('2d');
-                    ctx.fillStyle = '#010204';
-                    ctx.fillRect(0, 0, c.width, c.height);
-                });
-            }
+    <audio controls id="audioPlayer"></audio>
 
-            bindUI() {
-                document.getElementById('btn-start').addEventListener('click', () => this.start());
-                document.getElementById('btn-stop').addEventListener('click', () => this.stop());
-                window.addEventListener('resize', () => this.initCanvases());
-            }
+</div>
 
-            async start() {
-                try {
-                    this.leftBuffer = [];
-                    this.rightBuffer = [];
-                    this.bufferLength = 0;
+</div>
 
-                    const constraints = {
-                        audio: {
-                            channelCount: { ideal: 2 }, 
-                            echoCancellation: false,
-                            noiseSuppression: false,
-                            autoGainControl: false
-                        }
-                    };
+<script>
 
-                    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-                    
-                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    const source = this.audioContext.createMediaStreamSource(stream);
+class StudioEngine{
 
-                    this.splitter = this.audioContext.createChannelSplitter(2);
-                    this.analyserL = this.audioContext.createAnalyser();
-                    this.analyserR = this.audioContext.createAnalyser();
-                    
-                    // ضبط لإنتاج دقة موجات ناعمة وممتازة
-                    this.analyserL.fftSize = 2048;
-                    this.analyserR.fftSize = 2048;
+    constructor(){
 
-                    source.connect(this.splitter);
-                    this.splitter.connect(this.analyserL, 0); 
-                    this.splitter.connect(this.analyserR, 1); 
+        this.ctx=null;
+        this.processor=null;
+        this.splitter=null;
 
-                    this.processor = this.audioContext.createScriptProcessor(4096, 2, 2);
-                    
-                    this.processor.onaudioprocess = (e) => {
-                        if (!this.isRecording) return;
-                        const L = e.inputBuffer.getChannelData(0);
-                        const R = e.inputBuffer.getChannelData(1) || L;
+        this.analyserL=null;
+        this.analyserR=null;
 
-                        this.leftBuffer.push(new Float32Array(L));
-                        this.rightBuffer.push(new Float32Array(R));
-                        this.bufferLength += L.length;
-                    };
+        this.leftChunks=[];
+        this.rightChunks=[];
+        this.totalLength=0;
 
-                    source.connect(this.processor);
-                    this.processor.connect(this.audioContext.destination);
+        this.recording=false;
 
-                    this.isRecording = true;
-                    this.startTime = Date.now();
-                    
-                    this.startClock();
-                    this.drawWaves();
+        this.timerInterval=null;
+        this.animation=null;
+        this.startedAt=0;
 
-                    document.getElementById('btn-start').disabled = true;
-                    document.getElementById('btn-start').classList.add('recording');
-                    document.getElementById('btn-stop').disabled = false;
-                    document.getElementById('btn-download').style.display = 'none';
-                    document.getElementById('player-zone').style.display = 'none';
+        this.canvasL=document.getElementById('left');
+        this.canvasR=document.getElementById('right');
 
-                } catch (err) {
-                    alert('يرجى إعطاء صلاحية المايك للتطبيق من إعدادات الهاتف ليعمل التسجيل الستريو.');
-                }
-            }
+        this.ctxL=this.canvasL.getContext('2d');
+        this.ctxR=this.canvasR.getContext('2d');
 
-            stop() {
-                if (!this.isRecording) return;
-                this.isRecording = false;
+        this.initCanvas();
 
-                clearInterval(this.timerId);
-                cancelAnimationFrame(this.animId);
+        this.bind();
 
-                if (this.processor) this.processor.disconnect();
-                if (this.splitter) this.splitter.disconnect();
-                if (this.audioContext) this.audioContext.close();
+    }
 
-                document.getElementById('btn-start').disabled = false;
-                document.getElementById('btn-start').classList.remove('recording');
-                document.getElementById('btn-stop').disabled = true;
+    initCanvas(){
 
-                this.compileWavForApp();
-            }
+        [this.canvasL,this.canvasR].forEach(c=>{
 
-            compileWavForApp() {
-                const flatL = this.mergeChunks(this.leftBuffer, this.bufferLength);
-                const flatR = this.mergeChunks(this.rightBuffer, this.bufferLength);
+            c.width=c.offsetWidth;
+            c.height=c.offsetHeight;
 
-                const interleaved = new Float32Array(this.bufferLength * 2);
-                let idx = 0;
-                for (let i = 0; i < this.bufferLength; i++) {
-                    interleaved[idx++] = flatL[i];
-                    interleaved[idx++] = flatR[i];
+        });
+
+    }
+
+    bind(){
+
+        document.getElementById('startBtn')
+        .addEventListener('click',()=>this.start());
+
+        document.getElementById('stopBtn')
+        .addEventListener('click',()=>this.stop());
+
+        window.addEventListener('resize',()=>this.initCanvas());
+
+    }
+
+    async start(){
+
+        try{
+
+            this.leftChunks=[];
+            this.rightChunks=[];
+            this.totalLength=0;
+
+            const stream=await navigator.mediaDevices.getUserMedia({
+
+                audio:{
+                    channelCount:2,
+                    echoCancellation:false,
+                    noiseSuppression:false,
+                    autoGainControl:false
                 }
 
-                const buffer = new ArrayBuffer(44 + interleaved.length * 2);
-                const view = new DataView(buffer);
-                const sampleRate = this.audioContext.sampleRate || 44100;
+            });
 
-                this.writeStr(view, 0, 'RIFF');
-                view.setUint32(4, 36 + interleaved.length * 2, true);
-                this.writeStr(view, 8, 'WAVE');
-                this.writeStr(view, 12, 'fmt ');
-                view.setUint32(16, 16, true);
-                view.setUint16(20, 1, true); 
-                view.setUint16(22, 2, true); 
-                view.setUint32(24, sampleRate, true);
-                view.setUint32(28, sampleRate * 4, true);
-                view.setUint16(32, 4, true);
-                view.setUint16(34, 16, true); 
-                this.writeStr(view, 36, 'data');
-                view.setUint32(40, interleaved.length * 2, true);
+            this.ctx=new(window.AudioContext||window.webkitAudioContext)();
 
-                let offset = 44;
-                for (let i = 0; i < interleaved.length; i++, offset += 2) {
-                    let s = Math.max(-1, Math.min(1, interleaved[i]));
-                    view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
-                }
+            const source=this.ctx.createMediaStreamSource(stream);
 
-                const blob = new Blob([view], { type: 'audio/wav' });
-                
-                // تحويل البيانت إلى رابط نصي Base64 متوافق 100% مع تطبيقات الموبايل والـ WebView
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    const base64Url = reader.result;
-                    
-                    const player = document.getElementById('audio-output');
-                    player.src = base64Url;
-                    document.getElementById('player-zone').style.display = 'block';
+            this.splitter=this.ctx.createChannelSplitter(2);
 
-                    const dlBtn = document.getElementById('btn-download');
-                    dlBtn.href = base64Url;
-                    dlBtn.download = `Sufi_Master_${Date.now()}.wav`;
-                    dlBtn.style.display = 'flex';
-                };
-                reader.readAsDataURL(blob);
-                
-                this.initCanvases();
-            }
+            this.analyserL=this.ctx.createAnalyser();
+            this.analyserR=this.ctx.createAnalyser();
 
-            mergeChunks(chunks, totalLen) {
-                const out = new Float32Array(totalLen);
-                let offset = 0;
-                for (let i = 0; i < chunks.length; i++) {
-                    out.set(chunks[i], offset);
-                    offset += chunks[i].length;
-                }
-                return out;
-            }
+            this.analyserL.fftSize=2048;
+            this.analyserR.fftSize=2048;
 
-            writeStr(v, off, str) {
-                for (let i = 0; i < str.length; i++) {
-                    v.setUint8(off + i, str.charCodeAt(i));
-                }
-            }
+            source.connect(this.splitter);
 
-            drawWaves() {
-                if (!this.isRecording) return;
-                this.animId = requestAnimationFrame(() => this.drawWaves());
+            this.splitter.connect(this.analyserL,0);
+            this.splitter.connect(this.analyserR,1);
 
-                const lenL = this.analyserL.fftSize;
-                const dataL = new Uint8Array(lenL);
-                // استخدام دالة الدومين الزمني لإنتاج موجة اهتزاز حقيقية وليس أعمدة ترددية
-                this.analyserL.getByteTimeDomainData(dataL);
+            this.processor=this.ctx.createScriptProcessor(4096,2,2);
 
-                const lenR = this.analyserR.fftSize;
-                const dataR = new Uint8Array(lenR);
-                this.analyserR.getByteTimeDomainData(dataR);
+            this.processor.onaudioprocess=(e)=>{
 
-                this.renderVerticalOscilloscope(this.ctxL, this.canL, dataL, lenL, '#00f0ff');
-                this.renderVerticalOscilloscope(this.ctxR, this.canR, dataR, lenR, '#ff2a5f');
-            }
+                if(!this.recording) return;
 
-            renderVerticalOscilloscope(ctx, canvas, data, len, neonColor) {
-                const w = canvas.width;
-                const h = canvas.height;
-                ctx.fillStyle = '#010204';
-                ctx.fillRect(0, 0, w, h);
+                const L=e.inputBuffer.getChannelData(0);
+                const R=e.inputBuffer.getChannelData(1)||L;
 
-                ctx.beginPath();
-                ctx.lineWidth = 3;
-                ctx.strokeStyle = neonColor;
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = neonColor;
+                this.leftChunks.push(new Float32Array(L));
+                this.rightChunks.push(new Float32Array(R));
 
-                // رسم الموجة بشكل عامودي صاعد وهابط ويهتز من المنتصف يميناً ويساراً
-                for (let i = 0; i < len; i++) {
-                    const v = data[i] / 128.0; // نقطة الارتكاز المركزية للموجة
-                    const x = (v * w) / 2;
-                    const y = (i / len) * h;
+                this.totalLength+=L.length;
 
-                    if (i === 0) {
-                        ctx.moveTo(x, y);
-                    } else {
-                        ctx.lineTo(x, y);
-                    }
-                }
-                
-                ctx.stroke();
-                ctx.shadowBlur = 0; // تصفير الهالة للحفاظ على سرعة المتصفح
-            }
+            };
 
-            startClock() {
-                this.timerId = setInterval(() => {
-                    const sec = Math.floor((Date.now() - this.startTime) / 1000);
-                    const m = String(Math.floor(sec / 60)).padStart(2, '0');
-                    const s = String(sec % 60).padStart(2, '0');
-                    document.getElementById('txt-timer').textContent = `${m}:${s}`;
-                }, 1000);
-            }
+            source.connect(this.processor);
+            this.processor.connect(this.ctx.destination);
+
+            this.recording=true;
+
+            this.startedAt=Date.now();
+
+            this.startTimer();
+
+            this.animate();
+
+            document.getElementById('startBtn').disabled=true;
+            document.getElementById('startBtn').classList.add('recording');
+
+            document.getElementById('stopBtn').disabled=false;
+
+            document.getElementById('downloadBtn').style.display='none';
+
+            document.getElementById('playerZone').style.display='none';
+
+        }catch(err){
+
+            alert('افتح صلاحية المايك للتطبيق');
+
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            new ApplicationAudioEngine();
+    }
+
+    stop(){
+
+        if(!this.recording) return;
+
+        this.recording=false;
+
+        clearInterval(this.timerInterval);
+
+        cancelAnimationFrame(this.animation);
+
+        if(this.processor) this.processor.disconnect();
+
+        if(this.splitter) this.splitter.disconnect();
+
+        if(this.ctx) this.ctx.close();
+
+        document.getElementById('startBtn').disabled=false;
+        document.getElementById('startBtn').classList.remove('recording');
+
+        document.getElementById('stopBtn').disabled=true;
+
+        this.exportWav();
+
+    }
+
+    exportWav(){
+
+        const left=this.merge(this.leftChunks,this.totalLength);
+        const right=this.merge(this.rightChunks,this.totalLength);
+
+        const interleaved=new Float32Array(this.totalLength*2);
+
+        let index=0;
+
+        for(let i=0;i<this.totalLength;i++){
+
+            interleaved[index++]=left[i];
+            interleaved[index++]=right[i];
+
+        }
+
+        const buffer=new ArrayBuffer(44+interleaved.length*2);
+
+        const view=new DataView(buffer);
+
+        const sampleRate=44100;
+
+        this.write(view,0,'RIFF');
+
+        view.setUint32(4,36+interleaved.length*2,true);
+
+        this.write(view,8,'WAVE');
+
+        this.write(view,12,'fmt ');
+
+        view.setUint32(16,16,true);
+
+        view.setUint16(20,1,true);
+
+        view.setUint16(22,2,true);
+
+        view.setUint32(24,sampleRate,true);
+
+        view.setUint32(28,sampleRate*4,true);
+
+        view.setUint16(32,4,true);
+
+        view.setUint16(34,16,true);
+
+        this.write(view,36,'data');
+
+        view.setUint32(40,interleaved.length*2,true);
+
+        let offset=44;
+
+        for(let i=0;i<interleaved.length;i++,offset+=2){
+
+            let s=Math.max(-1,Math.min(1,interleaved[i]));
+
+            view.setInt16(
+                offset,
+                s<0?s*0x8000:s*0x7FFF,
+                true
+            );
+
+        }
+
+        const blob=new Blob([view],{
+            type:'audio/wav'
         });
-    </script>
+
+        const url=URL.createObjectURL(blob);
+
+        const audio=document.getElementById('audioPlayer');
+
+        audio.src=url;
+
+        document.getElementById('playerZone')
+        .style.display='block';
+
+        const btn=document.getElementById('downloadBtn');
+
+        btn.href=url;
+
+        btn.download=`Sufi_Studio_${Date.now()}.wav`;
+
+        btn.style.display='block';
+
+    }
+
+    merge(chunks,length){
+
+        const result=new Float32Array(length);
+
+        let offset=0;
+
+        for(let i=0;i<chunks.length;i++){
+
+            result.set(chunks[i],offset);
+
+            offset+=chunks[i].length;
+
+        }
+
+        return result;
+
+    }
+
+    write(view,offset,str){
+
+        for(let i=0;i<str.length;i++){
+
+            view.setUint8(offset+i,str.charCodeAt(i));
+
+        }
+
+    }
+
+    animate(){
+
+        if(!this.recording) return;
+
+        this.animation=requestAnimationFrame(()=>this.animate());
+
+        const dataL=new Uint8Array(this.analyserL.fftSize);
+        const dataR=new Uint8Array(this.analyserR.fftSize);
+
+        this.analyserL.getByteTimeDomainData(dataL);
+        this.analyserR.getByteTimeDomainData(dataR);
+
+        this.drawWave(
+            this.ctxL,
+            this.canvasL,
+            dataL,
+            '#00f0ff'
+        );
+
+        this.drawWave(
+            this.ctxR,
+            this.canvasR,
+            dataR,
+            '#ff2a5f'
+        );
+
+        this.updateMeters(dataL,dataR);
+
+    }
+
+    updateMeters(L,R){
+
+        let peakL=0;
+        let peakR=0;
+
+        for(let i=0;i<L.length;i++){
+
+            peakL=Math.max(
+                peakL,
+                Math.abs(L[i]-128)
+            );
+
+        }
+
+        for(let i=0;i<R.length;i++){
+
+            peakR=Math.max(
+                peakR,
+                Math.abs(R[i]-128)
+            );
+
+        }
+
+        peakL=(peakL/128)*100;
+        peakR=(peakR/128)*100;
+
+        document.getElementById('meterL')
+        .style.width=peakL+'%';
+
+        document.getElementById('meterR')
+        .style.width=peakR+'%';
+
+    }
+
+    drawWave(ctx,canvas,data,color){
+
+        const w=canvas.width;
+        const h=canvas.height;
+
+        ctx.fillStyle='#010204';
+
+        ctx.fillRect(0,0,w,h);
+
+        ctx.beginPath();
+
+        ctx.strokeStyle='rgba(255,255,255,.05)';
+        ctx.lineWidth=1;
+
+        ctx.moveTo(w/2,0);
+        ctx.lineTo(w/2,h);
+
+        ctx.stroke();
+
+        ctx.beginPath();
+
+        ctx.lineWidth=2.5;
+
+        ctx.strokeStyle=color;
+
+        ctx.shadowBlur=20;
+        ctx.shadowColor=color;
+
+        const slice=h/data.length;
+
+        for(let i=0;i<data.length;i++){
+
+            const v=data[i]/128.0;
+
+            const x=(w/2)+((v-1)*(w/2));
+
+            const y=i*slice;
+
+            if(i===0){
+
+                ctx.moveTo(x,y);
+
+            }else{
+
+                ctx.lineTo(x,y);
+
+            }
+
+        }
+
+        ctx.stroke();
+
+        ctx.shadowBlur=0;
+
+    }
+
+    startTimer(){
+
+        this.timerInterval=setInterval(()=>{
+
+            const sec=Math.floor(
+                (Date.now()-this.startedAt)/1000
+            );
+
+            const m=String(
+                Math.floor(sec/60)
+            ).padStart(2,'0');
+
+            const s=String(
+                sec%60
+            ).padStart(2,'0');
+
+            document.getElementById('timer')
+            .textContent=`${m}:${s}`;
+
+        },1000);
+
+    }
+
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+
+    new StudioEngine();
+
+});
+
+</script>
+
 </body>
 </html>
