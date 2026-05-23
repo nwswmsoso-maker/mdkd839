@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ستوديو صوفي ال دليم</title>
+    <title>ستوديو صوفي ال دليم | PWA MIXER PRO</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0a0d14">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -19,7 +19,9 @@
             --text: #f1f2f6;
             --border: rgba(229, 193, 88, 0.15);
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: 'Cairo', sans-serif;
             background: var(--bg-main);
@@ -30,6 +32,7 @@
             justify-content: center;
             padding: 10px;
         }
+
         .studio-container {
             width: 100%;
             max-width: 680px;
@@ -40,42 +43,50 @@
             box-shadow: 0 25px 50px rgba(0,0,0,0.8);
             position: relative;
         }
+
         .studio-container::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, var(--red), var(--gold), var(--cyan));
+            background: linear-gradient(90deg, var(--red), var(--gold), var(--green));
             border-radius: 16px 16px 0 0;
         }
+
         .header-section { text-align: center; margin-bottom: 20px; }
         .studio-title { font-size: 1.4rem; font-weight: 900; color: var(--gold); text-shadow: 0 0 15px rgba(229, 193, 88, 0.3); }
-        .studio-subtitle { font-size: 0.65rem; color: var(--cyan); font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
+        .studio-subtitle { font-size: 0.65rem; color: var(--green); font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
+
+        /* شاشات المكسر العمودية LED */
         .hardware-display {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 15px;
             margin-bottom: 15px;
         }
+
         .monitor-card {
             background: var(--bg-monitor);
             border-radius: 10px;
-            padding: 12px;
-            border: 1px solid rgba(255,255,255,0.01);
-        }
-        .panel-label {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.65rem;
-            color: var(--gold);
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-            display: block;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.02);
             text-align: center;
         }
+
+        .panel-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            color: #8fa0b5;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
         canvas {
             width: 100%;
-            height: 200px;
+            height: 260px; /* زيادة طول المكسر ليكون أوضح */
             background: #010204;
             display: block;
-            border-radius: 4px;
+            border-radius: 6px;
         }
+
         .player-zone {
             background: #05080e;
             border: 1px dashed rgba(229, 193, 88, 0.3);
@@ -87,29 +98,37 @@
         }
         .player-zone p { font-size: 0.8rem; color: var(--gold); margin-bottom: 8px; }
         audio { width: 100%; }
+
         .controls-wrapper {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 12px;
         }
+
         .control-box { background: #0c0f17; border-radius: 8px; padding: 12px; border: 1px solid rgba(255,255,255,0.02); }
+
         .btn {
             width: 100%; padding: 12px; border: none; border-radius: 6px;
             font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 0.85rem;
             cursor: pointer; transition: all 0.2s ease;
             display: flex; align-items: center; justify-content: center; gap: 6px;
         }
+
         .btn-rec { background: #1a080c; color: var(--red); border: 1px solid rgba(255, 42, 95, 0.15); }
         .btn-rec.recording { background: var(--red); color: #fff; animation: blink 0.8s infinite alternate; }
+
         @keyframes blink { 0% { opacity: 0.8; } 100% { opacity: 1; box-shadow: 0 0 12px var(--red); } }
         .btn-stop { background: #1e2530; color: #fff; }
+        
         .btn-down { 
             background: var(--green); color: #000; 
             font-weight: 900;
             box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
             display: none; 
         }
+
         .btn:disabled { opacity: 0.1; cursor: not-allowed; }
+
         .info-node { background: var(--bg-monitor); padding: 8px; border-radius: 4px; border-right: 2px solid var(--gold); text-align: center; margin-top: 8px; }
         .info-label { font-size: 0.55rem; color: #54657a; }
         .info-val { font-family: 'Orbitron', monospace; font-size: 1rem; font-weight: 700; color: var(--gold); }
@@ -119,35 +138,36 @@
 
     <div class="studio-container">
         <div class="header-section">
-            <h1 class="studio-title">صوفي ال دليم | PWA PRO</h1>
-            <p class="studio-subtitle">NATIVE OFFLINE STEREO ENGINE</p>
+            <h1 class="studio-title">صوفي ال دليم | VU MIXER MASTER</h1>
+            <p class="studio-subtitle">LED PRO CONSOLE METERS</p>
         </div>
 
+        <!-- شاشات الـ VU METERS الاحترافية بالطول -->
         <div class="hardware-display">
             <div class="monitor-card">
-                <span class="panel-label">🎚️ LEFT CH</span>
+                <span class="panel-label">🎚️ CH 1 - LEFT (dB)</span>
                 <canvas id="canvas-left"></canvas>
             </div>
             <div class="monitor-card">
-                <span class="panel-label">🎚️ RIGHT CH</span>
+                <span class="panel-label">🎚️ CH 2 - RIGHT (dB)</span>
                 <canvas id="canvas-right"></canvas>
             </div>
         </div>
 
         <div class="player-zone" id="player-area">
-            <p>🎧 تشغيل المكس الستريو فوراً:</p>
+            <p>🎧 استمع للمكس الستريو الفوري:</p>
             <audio id="audio-output" controls></audio>
         </div>
 
         <div class="controls-wrapper">
             <div class="control-box">
-                <span class="panel-label">🎙️ STUDIO CONTROL</span>
+                <span class="panel-label">🎙️ HARDWARE INPUT</span>
                 <button class="btn btn-rec" id="btn-start">🔴 تسجيل ستريو</button>
-                <button class="btn btn-stop" id="btn-stop" disabled>⏹️ إيقاف ومعالجة</button>
+                <button class="btn btn-stop" id="btn-stop" disabled>⏹️ إيقاف المعالجة</button>
             </div>
             <div class="control-box">
-                <span class="panel-label">💾 NATIVE EXPORT</span>
-                <button class="btn btn-down" id="btn-download">📥 حفظ ملف WAV بالجهاز</button>
+                <span class="panel-label">💾 STORAGE EXPORT</span>
+                <button class="btn btn-down" id="btn-download">📥 حفظ تراك WAV للجهاز</button>
                 <div class="info-node">
                     <div class="info-label">الوقت المنقضي</div>
                     <div class="info-val" id="txt-timer">00:00</div>
@@ -157,14 +177,12 @@
     </div>
 
     <script>
-        // تسجيل الـ Service Worker لتفعيل وضع الـ أوفلاين كلياً
+        // تسجيل السيرفس وركر للوضع الأوفلاين
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-            .then(() => console.log("PWA Service Worker Registered Successfully"))
-            .catch(err => console.log("Service Worker Registration Failed", err));
+            navigator.serviceWorker.register('sw.js').catch(err => console.log(err));
         }
 
-        class NativeAudioEngine {
+        class MixerAudioEngine {
             constructor() {
                 this.audioContext = null;
                 this.processor = null;
@@ -180,8 +198,9 @@
                 this.animId = null;
                 this.cleanWavBlob = null; 
 
-                this.waveHistoryL = new Array(100).fill(0);
-                this.waveHistoryR = new Array(100).fill(0);
+                // قيم الارتداد الناعم للـ VU Meter لكي لا يقطع الحركة
+                this.smoothLevelL = 0;
+                this.smoothLevelR = 0;
 
                 this.canL = document.getElementById('canvas-left');
                 this.canR = document.getElementById('canvas-right');
@@ -196,6 +215,7 @@
                 [this.canL, this.canR].forEach(c => {
                     c.width = c.offsetWidth;
                     c.height = c.offsetHeight;
+                    this.renderVUMeter(c.getContext('2d'), c, 0); // رسم العداد وهو صفر بالبداية
                 });
             }
 
@@ -208,11 +228,8 @@
 
             async start() {
                 try {
-                    this.leftBuffer = [];
-                    this.rightBuffer = [];
-                    this.bufferLength = 0;
-                    this.waveHistoryL.fill(0);
-                    this.waveHistoryR.fill(0);
+                    this.leftBuffer = []; this.rightBuffer = []; this.bufferLength = 0;
+                    this.smoothLevelL = 0; this.smoothLevelR = 0;
 
                     const stream = await navigator.mediaDevices.getUserMedia({
                         audio: { channelCount: 2, echoCancellation: false, noiseSuppression: false, autoGainControl: false }
@@ -224,8 +241,8 @@
                     this.splitter = this.audioContext.createChannelSplitter(2);
                     this.analyserL = this.audioContext.createAnalyser();
                     this.analyserR = this.audioContext.createAnalyser();
-                    this.analyserL.fftSize = 1024;
-                    this.analyserR.fftSize = 1024;
+                    this.analyserL.fftSize = 512;
+                    this.analyserR.fftSize = 512;
 
                     source.connect(this.splitter);
                     this.splitter.connect(this.analyserL, 0); 
@@ -247,7 +264,7 @@
                     this.isRecording = true;
                     this.startTime = Date.now();
                     this.startClock();
-                    this.drawVerticalWaves();
+                    this.drawMixerMeters();
 
                     document.getElementById('btn-start').disabled = true;
                     document.getElementById('btn-start').classList.add('recording');
@@ -255,7 +272,7 @@
                     document.getElementById('btn-download').style.display = 'none';
                     document.getElementById('player-area').style.display = 'none';
                 } catch (err) {
-                    alert('يرجى السماح بصلاحية المايكروفون المتطور.');
+                    alert('يرجى إعطاء صلاحية المايكروفون المتطور للبدء.');
                 }
             }
 
@@ -323,7 +340,7 @@
                 if (!this.cleanWavBlob) return;
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(this.cleanWavBlob);
-                link.download = `Sufi_Master_${Date.now()}.wav`;
+                link.download = `Sufi_Mix_${Date.now()}.wav`;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -337,9 +354,11 @@
             }
             writeStr(v, off, str) { for (let i = 0; i < str.length; i++) { v.setUint8(off + i, str.charCodeAt(i)); } }
 
-            drawVerticalWaves() {
+            // محرك حساب حجم الصوت وتغذية الـ LED Meters
+            drawMixerMeters() {
                 if (!this.isRecording) return;
-                this.animId = requestAnimationFrame(() => this.drawVerticalWaves());
+                this.animId = requestAnimationFrame(() => this.drawMixerMeters());
+
                 const dataL = new Uint8Array(this.analyserL.fftSize);
                 this.analyserL.getByteTimeDomainData(dataL);
                 const dataR = new Uint8Array(this.analyserR.fftSize);
@@ -352,27 +371,61 @@
                     if (devL > maxL) maxL = devL;
                     if (devR > maxR) maxR = devR;
                 }
-                this.waveHistoryL.push(maxL); this.waveHistoryR.push(maxR);
-                if (this.waveHistoryL.length > 100) { this.waveHistoryL.shift(); this.waveHistoryR.shift(); }
 
-                this.renderWave(this.ctxL, this.canL, this.waveHistoryL, '#00f0ff');
-                this.renderWave(this.ctxR, this.canR, this.waveHistoryR, '#ff2a5f');
+                // تحويل لنسبة مئوية بين 0 و 1
+                let rawLevelL = maxL / 128;
+                let rawLevelR = maxR / 128;
+
+                // نظام الارتداد التناظري (نعومة الحركة لتهدئة الـ LED عند النزول)
+                this.smoothLevelL = Math.max(rawLevelL, this.smoothLevelL * 0.88);
+                this.smoothLevelR = Math.max(rawLevelR, this.smoothLevelR * 0.88);
+
+                this.renderVUMeter(this.ctxL, this.canL, this.smoothLevelL);
+                this.renderVUMeter(this.ctxR, this.canR, this.smoothLevelR);
             }
 
-            renderWave(ctx, can, hist, color) {
-                const w = can.width, h = can.height;
-                ctx.fillStyle = '#010204'; ctx.fillRect(0, 0, w, h);
-                const midX = w / 2, step = h / hist.length;
-                ctx.beginPath(); ctx.lineWidth = 3; ctx.strokeStyle = color;
-                for (let i = 0; i < hist.length; i++) {
-                    let amp = (hist[i] / 128) * (w / 2) * 0.95; let y = h - (i * step);
-                    if (i === 0) ctx.moveTo(midX - amp, y); else ctx.lineTo(midX - amp, y);
+            // رسم الـ LED Bars الاحترافي (أخضر -> أصفر -> أحمر)
+            renderVUMeter(ctx, canvas, level) {
+                const w = canvas.width;
+                const h = canvas.height;
+                
+                // تنظيف الخلفية بلون الاستوديو الداكن
+                ctx.fillStyle = '#010204';
+                ctx.fillRect(0, 0, w, h);
+
+                const totalSegments = 24; // عدد المصابيح في كل تراك
+                const gap = 3; // الفراغ بين مصباح ومصباح
+                const segmentHeight = (h - (gap * (totalSegments - 1))) / totalSegments;
+                const filledSegments = Math.round(level * totalSegments);
+
+                for (let i = 0; i < totalSegments; i++) {
+                    let isActive = i < filledSegments;
+                    let color = '#00ff66'; // النطاق الآمن (أخضر)
+
+                    if (i >= totalSegments * 0.82) {
+                        color = '#ff2a5f'; // نطاق الكليبينغ العالي (أحمر)
+                    } else if (i >= totalSegments * 0.58) {
+                        color = '#e5c158'; // نطاق الهندسة الأوسط (أصفر / برتقالي)
+                    }
+
+                    // إذا كان المصباح طافئ نعطيه لون خافت جداً ليعطي تأثير الهاردوير الحقيقي
+                    ctx.fillStyle = isActive ? color : 'rgba(255, 255, 255, 0.04)';
+
+                    // إضافة تأثير توهج نيون للمصابيح المشتعلة فقط
+                    if (isActive && i >= totalSegments * 0.58) {
+                        ctx.shadowBlur = 8;
+                        ctx.shadowColor = color;
+                    } else {
+                        ctx.shadowBlur = 0;
+                    }
+
+                    // الحساب يبدأ من الأسفل للأعلى
+                    let y = h - (i * (segmentHeight + gap)) - segmentHeight;
+                    
+                    // رسم البلوك العريض للمكسر
+                    ctx.fillRect(15, y, w - 30, segmentHeight);
                 }
-                for (let i = hist.length - 1; i >= 0; i--) {
-                    let amp = (hist[i] / 128) * (w / 2) * 0.95; let y = h - (i * step);
-                    ctx.lineTo(midX + amp, y);
-                }
-                ctx.stroke();
+                ctx.shadowBlur = 0; // تصفير الجلو بعد الانتهاء
             }
 
             startClock() {
@@ -382,7 +435,7 @@
                 }, 1000);
             }
         }
-        window.addEventListener('DOMContentLoaded', () => { new NativeAudioEngine(); });
+        window.addEventListener('DOMContentLoaded', () => { new MixerAudioEngine(); });
     </script>
 </body>
 </html>
