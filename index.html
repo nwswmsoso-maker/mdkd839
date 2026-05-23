@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SOFI AL DULAIM | STUDIO V7</title>
+<title>SOFI AL DULAIM | STUDIO V8</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
@@ -15,7 +15,6 @@
 :root{
     --bg:#020406;
     --panel:#0a0d14;
-    --monitor:#010203;
     --gold:#e5c158;
     --cyan:#00f0ff;
     --red:#ff2a5f;
@@ -42,13 +41,13 @@ body{
 
 .studio{
     width:100%;
-    max-width:900px;
+    max-width:950px;
     background:var(--panel);
     border-radius:20px;
     border:1px solid rgba(229,193,88,.1);
     padding:20px;
-    position:relative;
     overflow:hidden;
+    position:relative;
     box-shadow:0 25px 60px rgba(0,0,0,.8);
 }
 
@@ -69,15 +68,15 @@ body{
 
 .title{
     font-size:2rem;
-    color:var(--gold);
     font-weight:900;
+    color:var(--gold);
 }
 
 .sub{
     font-size:.7rem;
     color:var(--cyan);
-    letter-spacing:3px;
     font-family:'Orbitron',sans-serif;
+    letter-spacing:3px;
 }
 
 .display{
@@ -90,7 +89,6 @@ body{
     background:#000;
     border-radius:15px;
     padding:10px;
-    border:1px solid rgba(255,255,255,.04);
 }
 
 .label{
@@ -105,17 +103,17 @@ body{
 canvas{
     width:100%;
     height:320px;
-    display:block;
     background:#010204;
     border-radius:10px;
+    display:block;
 }
 
 .meter{
-    margin-top:10px;
     height:12px;
     background:#111;
     border-radius:20px;
     overflow:hidden;
+    margin-top:10px;
 }
 
 .meter-fill{
@@ -146,7 +144,7 @@ canvas{
     cursor:pointer;
     font-family:'Cairo',sans-serif;
     font-weight:700;
-    font-size:.95rem;
+    font-size:1rem;
     transition:.2s;
     margin-bottom:10px;
 }
@@ -173,7 +171,7 @@ canvas{
 }
 
 .stop:hover{
-    background:#2f3948;
+    background:#2d3947;
 }
 
 .download{
@@ -200,21 +198,20 @@ canvas{
 .timer{
     background:#05070c;
     border-radius:10px;
-    text-align:center;
     padding:12px;
-    margin-top:10px;
+    text-align:center;
 }
 
 .timer small{
     display:block;
-    color:#5c6675;
+    color:#5d6877;
     margin-bottom:5px;
 }
 
 .timer span{
     font-size:1.4rem;
-    color:var(--gold);
     font-family:'Orbitron',sans-serif;
+    color:var(--gold);
 }
 
 .player{
@@ -228,8 +225,8 @@ canvas{
 
 .player p{
     text-align:center;
-    color:#ffee55;
     margin-bottom:10px;
+    color:#ffee55;
 }
 
 audio{
@@ -257,8 +254,8 @@ canvas{
 <div class="studio">
 
 <div class="header">
-    <div class="title">صوفي ال دليم | STUDIO V7</div>
-    <div class="sub">TRUE STEREO MIXER ENGINE</div>
+    <div class="title">صوفي ال دليم | STUDIO V8</div>
+    <div class="sub">TRUE STEREO RECORDER</div>
 </div>
 
 <div class="display">
@@ -306,7 +303,7 @@ canvas{
     <div class="box">
 
         <button class="btn download" id="downloadBtn">
-            💾 فتح الملف
+            💾 تنزيل التسجيل
         </button>
 
         <div class="timer">
@@ -337,15 +334,15 @@ class Studio{
 
     constructor(){
 
-        this.ctx=null;
+        this.audioContext=null;
         this.processor=null;
         this.splitter=null;
 
         this.analyserL=null;
         this.analyserR=null;
 
-        this.leftData=[];
-        this.rightData=[];
+        this.leftChunks=[];
+        this.rightChunks=[];
 
         this.totalLength=0;
 
@@ -361,13 +358,13 @@ class Studio{
         this.ctxL=this.canvasL.getContext('2d');
         this.ctxR=this.canvasR.getContext('2d');
 
-        this.setupCanvas();
+        this.initCanvas();
 
-        this.events();
+        this.bindEvents();
 
     }
 
-    setupCanvas(){
+    initCanvas(){
 
         [this.canvasL,this.canvasR].forEach(c=>{
 
@@ -378,41 +375,28 @@ class Studio{
 
     }
 
-    events(){
+    bindEvents(){
 
         document.getElementById('startBtn')
-        .addEventListener('click',()=>this.start());
+        .addEventListener('click',()=>this.startRecording());
 
         document.getElementById('stopBtn')
-        .addEventListener('click',()=>this.stop());
-
-        document.getElementById('downloadBtn')
-        .addEventListener('click',()=>{
-
-            const audio=document.getElementById('audioPlayer');
-
-            if(audio.src){
-
-                window.open(audio.src);
-
-            }
-
-        });
+        .addEventListener('click',()=>this.stopRecording());
 
         window.addEventListener('resize',()=>{
 
-            this.setupCanvas();
+            this.initCanvas();
 
         });
 
     }
 
-    async start(){
+    async startRecording(){
 
         try{
 
-            this.leftData=[];
-            this.rightData=[];
+            this.leftChunks=[];
+            this.rightChunks=[];
             this.totalLength=0;
 
             const stream=await navigator.mediaDevices.getUserMedia({
@@ -426,14 +410,22 @@ class Studio{
 
             });
 
-            this.ctx=new(window.AudioContext||window.webkitAudioContext)();
+            this.audioContext=new(
+                window.AudioContext||
+                window.webkitAudioContext
+            )();
 
-            const source=this.ctx.createMediaStreamSource(stream);
+            const source=this.audioContext
+            .createMediaStreamSource(stream);
 
-            this.splitter=this.ctx.createChannelSplitter(2);
+            this.splitter=this.audioContext
+            .createChannelSplitter(2);
 
-            this.analyserL=this.ctx.createAnalyser();
-            this.analyserR=this.ctx.createAnalyser();
+            this.analyserL=this.audioContext
+            .createAnalyser();
+
+            this.analyserR=this.audioContext
+            .createAnalyser();
 
             this.analyserL.fftSize=2048;
             this.analyserR.fftSize=2048;
@@ -443,7 +435,8 @@ class Studio{
             this.splitter.connect(this.analyserL,0);
             this.splitter.connect(this.analyserR,1);
 
-            this.processor=this.ctx.createScriptProcessor(4096,2,2);
+            this.processor=this.audioContext
+            .createScriptProcessor(4096,2,2);
 
             this.processor.onaudioprocess=(e)=>{
 
@@ -452,8 +445,13 @@ class Studio{
                 const L=e.inputBuffer.getChannelData(0);
                 const R=e.inputBuffer.getChannelData(1)||L;
 
-                this.leftData.push(new Float32Array(L));
-                this.rightData.push(new Float32Array(R));
+                this.leftChunks.push(
+                    new Float32Array(L)
+                );
+
+                this.rightChunks.push(
+                    new Float32Array(R)
+                );
 
                 this.totalLength+=L.length;
 
@@ -461,25 +459,28 @@ class Studio{
 
             source.connect(this.processor);
 
-            // مهم جداً حتى ما يصير صوت عملاق
-            // لا تربط بالمخرج
-
             this.recording=true;
 
             this.startTime=Date.now();
 
             this.animate();
 
-            this.runTimer();
+            this.startTimer();
 
-            document.getElementById('startBtn').disabled=true;
-            document.getElementById('startBtn').classList.add('recording');
+            document.getElementById('startBtn')
+            .disabled=true;
 
-            document.getElementById('stopBtn').disabled=false;
+            document.getElementById('startBtn')
+            .classList.add('recording');
 
-            document.getElementById('downloadBtn').style.display='none';
+            document.getElementById('stopBtn')
+            .disabled=false;
 
-            document.getElementById('playerBox').style.display='none';
+            document.getElementById('downloadBtn')
+            .style.display='none';
+
+            document.getElementById('playerBox')
+            .style.display='none';
 
         }catch(err){
 
@@ -489,7 +490,7 @@ class Studio{
 
     }
 
-    stop(){
+    stopRecording(){
 
         if(!this.recording) return;
 
@@ -499,27 +500,42 @@ class Studio{
 
         cancelAnimationFrame(this.animation);
 
-        if(this.processor) this.processor.disconnect();
+        if(this.processor)
+        this.processor.disconnect();
 
-        if(this.splitter) this.splitter.disconnect();
+        if(this.splitter)
+        this.splitter.disconnect();
 
-        if(this.ctx) this.ctx.close();
+        if(this.audioContext)
+        this.audioContext.close();
 
-        document.getElementById('startBtn').disabled=false;
-        document.getElementById('startBtn').classList.remove('recording');
+        document.getElementById('startBtn')
+        .disabled=false;
 
-        document.getElementById('stopBtn').disabled=true;
+        document.getElementById('startBtn')
+        .classList.remove('recording');
 
-        this.exportAudio();
+        document.getElementById('stopBtn')
+        .disabled=true;
+
+        this.exportWav();
 
     }
 
-    exportAudio(){
+    exportWav(){
 
-        const left=this.mergeBuffers(this.leftData,this.totalLength);
-        const right=this.mergeBuffers(this.rightData,this.totalLength);
+        const left=this.mergeBuffers(
+            this.leftChunks,
+            this.totalLength
+        );
 
-        const interleaved=new Float32Array(this.totalLength*2);
+        const right=this.mergeBuffers(
+            this.rightChunks,
+            this.totalLength
+        );
+
+        const interleaved=
+        new Float32Array(this.totalLength*2);
 
         let index=0;
 
@@ -530,7 +546,10 @@ class Studio{
 
         }
 
-        const buffer=new ArrayBuffer(44+interleaved.length*2);
+        const buffer=
+        new ArrayBuffer(
+            44+interleaved.length*2
+        );
 
         const view=new DataView(buffer);
 
@@ -538,7 +557,11 @@ class Studio{
 
         this.writeString(view,0,'RIFF');
 
-        view.setUint32(4,36+interleaved.length*2,true);
+        view.setUint32(
+            4,
+            36+interleaved.length*2,
+            true
+        );
 
         this.writeString(view,8,'WAVE');
 
@@ -550,9 +573,17 @@ class Studio{
 
         view.setUint16(22,2,true);
 
-        view.setUint32(24,sampleRate,true);
+        view.setUint32(
+            24,
+            sampleRate,
+            true
+        );
 
-        view.setUint32(28,sampleRate*4,true);
+        view.setUint32(
+            28,
+            sampleRate*4,
+            true
+        );
 
         view.setUint16(32,4,true);
 
@@ -560,13 +591,24 @@ class Studio{
 
         this.writeString(view,36,'data');
 
-        view.setUint32(40,interleaved.length*2,true);
+        view.setUint32(
+            40,
+            interleaved.length*2,
+            true
+        );
 
         let offset=44;
 
-        for(let i=0;i<interleaved.length;i++,offset+=2){
+        for(
+            let i=0;
+            i<interleaved.length;
+            i++,offset+=2
+        ){
 
-            let s=Math.max(-1,Math.min(1,interleaved[i]));
+            let s=Math.max(
+                -1,
+                Math.min(1,interleaved[i])
+            );
 
             view.setInt16(
                 offset,
@@ -576,35 +618,54 @@ class Studio{
 
         }
 
-        const blob=new Blob([view],{
-            type:'audio/wav'
-        });
+        const blob=new Blob(
+            [view],
+            {type:'audio/wav'}
+        );
 
-        const reader=new FileReader();
+        const fileURL=
+        URL.createObjectURL(blob);
 
-        reader.onloadend=()=>{
+        const player=
+        document.getElementById('audioPlayer');
 
-            const base64=reader.result;
+        player.src=fileURL;
 
-            const player=document.getElementById('audioPlayer');
+        player.load();
 
-            player.src=base64;
+        document.getElementById('playerBox')
+        .style.display='block';
 
-            document.getElementById('playerBox')
-            .style.display='block';
+        document.getElementById('downloadBtn')
+        .style.display='block';
 
-            document.getElementById('downloadBtn')
-            .style.display='block';
+        const btn=
+        document.getElementById('downloadBtn');
+
+        btn.onclick=()=>{
+
+            const a=
+            document.createElement('a');
+
+            a.href=fileURL;
+
+            a.download=
+            `Sufi_Record_${Date.now()}.wav`;
+
+            document.body.appendChild(a);
+
+            a.click();
+
+            document.body.removeChild(a);
 
         };
-
-        reader.readAsDataURL(blob);
 
     }
 
     mergeBuffers(chunks,length){
 
-        const result=new Float32Array(length);
+        const result=
+        new Float32Array(length);
 
         let offset=0;
 
@@ -624,7 +685,10 @@ class Studio{
 
         for(let i=0;i<string.length;i++){
 
-            view.setUint8(offset+i,string.charCodeAt(i));
+            view.setUint8(
+                offset+i,
+                string.charCodeAt(i)
+            );
 
         }
 
@@ -634,13 +698,26 @@ class Studio{
 
         if(!this.recording) return;
 
-        this.animation=requestAnimationFrame(()=>this.animate());
+        this.animation=
+        requestAnimationFrame(
+            ()=>this.animate()
+        );
 
-        const dataL=new Uint8Array(this.analyserL.fftSize);
-        const dataR=new Uint8Array(this.analyserR.fftSize);
+        const dataL=
+        new Uint8Array(
+            this.analyserL.fftSize
+        );
 
-        this.analyserL.getByteTimeDomainData(dataL);
-        this.analyserR.getByteTimeDomainData(dataR);
+        const dataR=
+        new Uint8Array(
+            this.analyserR.fftSize
+        );
+
+        this.analyserL
+        .getByteTimeDomainData(dataL);
+
+        this.analyserR
+        .getByteTimeDomainData(dataR);
 
         this.drawWave(
             this.ctxL,
@@ -703,8 +780,6 @@ class Studio{
 
         ctx.fillRect(0,0,w,h);
 
-        // خط المنتصف
-
         ctx.beginPath();
 
         ctx.strokeStyle='rgba(255,255,255,.05)';
@@ -712,11 +787,10 @@ class Studio{
         ctx.lineWidth=1;
 
         ctx.moveTo(w/2,0);
+
         ctx.lineTo(w/2,h);
 
         ctx.stroke();
-
-        // رسم الموجة
 
         ctx.beginPath();
 
@@ -725,6 +799,7 @@ class Studio{
         ctx.strokeStyle=color;
 
         ctx.shadowBlur=20;
+
         ctx.shadowColor=color;
 
         const slice=h/data.length;
@@ -733,7 +808,8 @@ class Studio{
 
             const v=data[i]/128.0;
 
-            const x=(w/2)+((v-1)*(w/2));
+            const x=
+            (w/2)+((v-1)*(w/2));
 
             const y=i*slice;
 
@@ -755,7 +831,7 @@ class Studio{
 
     }
 
-    runTimer(){
+    startTimer(){
 
         this.timerInterval=setInterval(()=>{
 
@@ -780,11 +856,14 @@ class Studio{
 
 }
 
-window.addEventListener('DOMContentLoaded',()=>{
+window.addEventListener(
+    'DOMContentLoaded',
+    ()=>{
 
-    new Studio();
+        new Studio();
 
-});
+    }
+);
 
 </script>
 
