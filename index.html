@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ستوديو صوفي ال دليم | الستريو الذهبي</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>ستوديو صوفي ال دليم | مخصص للتطبيق</title>
+    <link href="https://fonts.googleapis.com/css2=family=Orbitron:wght@500;700;900&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-main: #030508;
-            --bg-panel: #0b0e14;
-            --bg-monitor: #010204;
+            --bg-main: #020406;
+            --bg-panel: #0a0d14;
+            --bg-monitor: #010203;
             --gold: #e5c158;
             --cyan: #00f0ff;
             --red: #ff2a5f;
-            --green: #00ff66;
             --text: #f1f2f6;
-            --text-dim: #54657a;
+            --text-dim: #4b596c;
             --border: rgba(229, 193, 88, 0.15);
         }
 
@@ -30,12 +29,12 @@
             align-items: center;
             justify-content: center;
             padding: 10px;
-            background-image: radial-gradient(circle at 50% 15%, rgba(229, 193, 88, 0.05) 0%, transparent 65%);
+            background-image: radial-gradient(circle at 50% 15%, rgba(229, 193, 88, 0.03) 0%, transparent 65%);
         }
 
         .studio-container {
             width: 100%;
-            max-width: 700px;
+            max-width: 680px;
             background: var(--bg-panel);
             border-radius: 16px;
             border: 1px solid var(--border);
@@ -51,10 +50,10 @@
         }
 
         .header-section { text-align: center; margin-bottom: 20px; }
-        .studio-title { font-size: 1.6rem; font-weight: 900; color: var(--gold); text-shadow: 0 0 15px rgba(229, 193, 88, 0.3); }
-        .studio-subtitle { font-size: 0.7rem; color: var(--cyan); font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
+        .studio-title { font-size: 1.5rem; font-weight: 900; color: var(--gold); text-shadow: 0 0 15px rgba(229, 193, 88, 0.3); }
+        .studio-subtitle { font-size: 0.65rem; color: var(--cyan); font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
 
-        /* شاشات المؤشرات العمودية */
+        /* شاشات الموجات العمودية الحقيقية */
         .hardware-display {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -81,15 +80,15 @@
 
         canvas {
             width: 100%;
-            height: 150px;
+            height: 180px; /* زيادة الارتفاع لتبين الموجة بوضوح */
             background: #010204;
             display: block;
             border-radius: 4px;
         }
 
-        /* منطقة الاستماع الآمن والإنقاذ */
+        /* صندوق التشغيل الآمن والتنزيل البديل داخل التطبيقات */
         .safe-player-area {
-            background: #06090f;
+            background: #05080e;
             border: 1px dashed var(--cyan);
             border-radius: 8px;
             padding: 12px;
@@ -100,14 +99,13 @@
         .safe-player-area p { font-size: 0.75rem; color: #ffee55; margin-bottom: 5px; }
         audio { width: 100%; margin-top: 5px; }
 
-        /* الأزرار والتحكم */
         .controls-wrapper {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 12px;
         }
 
-        .control-box { background: #0f131c; border-radius: 8px; padding: 12px; border: 1px solid rgba(255,255,255,0.02); }
+        .control-box { background: #0c0f17; border-radius: 8px; padding: 12px; border: 1px solid rgba(255,255,255,0.02); }
 
         .btn {
             width: 100%; padding: 12px; border: none; border-radius: 6px;
@@ -117,15 +115,15 @@
             text-decoration: none;
         }
 
-        .btn-rec { background: #1e0a0e; color: var(--red); border: 1px solid rgba(255, 42, 95, 0.15); }
+        .btn-rec { background: #1a080c; color: var(--red); border: 1px solid rgba(255, 42, 95, 0.15); }
         .btn-rec:hover:not(:disabled) { background: var(--red); color: #fff; }
         .btn-rec.recording { background: var(--red); color: #fff; animation: blink 0.8s infinite alternate; }
 
         @keyframes blink { 0% { opacity: 0.8; } 100% { opacity: 1; box-shadow: 0 0 12px var(--red); } }
-        .btn-stop { background: #232a36; color: #fff; }
-        .btn-stop:hover:not(:disabled) { background: #333d4f; }
+        .btn-stop { background: #1e2530; color: #fff; }
+        .btn-stop:hover:not(:disabled) { background: #2d3746; }
 
-        /* زر التحميل الحقيقي المقاوم للتجميد */
+        /* زر التحميل المتوافق مع AppCreator24 */
         .btn-down { 
             background: #251f10; color: var(--gold); 
             border: 1px solid rgba(229, 193, 88, 0.2); 
@@ -145,40 +143,40 @@
     <div class="studio-container">
         
         <div class="header-section">
-            <h1 class="studio-title">صوفي ال دليم | STEREO V4</h1>
-            <p class="studio-subtitle">TRUE STEREO BYPASS ENGINE</p>
+            <h1 class="studio-title">صوفي ال دليم | APP ENGINE V5</h1>
+            <p class="studio-subtitle">TRUE STEREO VERTICAL WAVE</p>
         </div>
 
-        <!-- قسم المؤشرات العمودية الحقيقية (يسار ويمين بشكل منفصل) -->
+        <!-- قسم شاشات الموجات الصوتية العمودية الحقيقية (يسار ويمين) -->
         <div class="hardware-display">
             <div class="monitor-card">
-                <span class="panel-label">🎚️ LEFT CH (اليسار)</span>
+                <span class="panel-label">🎵 LEFT WAVE (موجة اليسار)</span>
                 <canvas id="canvas-left"></canvas>
             </div>
             <div class="monitor-card">
-                <span class="panel-label">🎚️ RIGHT CH (اليمين)</span>
+                <span class="panel-label">🎵 RIGHT WAVE (موجة اليمين)</span>
                 <canvas id="canvas-right"></canvas>
             </div>
         </div>
 
-        <!-- صندوق الإنقاذ والاستماع المباشر في حال تعطل التحميل الخارجي للموبايل -->
+        <!-- مشغل الصوت الآمن داخل التطبيق للتشغيل والحفظ الاحتياطي -->
         <div class="safe-player-area" id="player-zone">
-            <p>💡 إذا لم يستجب زر التحميل بالأسفل، اضغط مطولاً هنا وحفظ باسم:</p>
+            <p>💡 جاري التحميل.. يمكنك الاستماع للمكس أو الضغط هنا مطولاً للحفظ:</p>
             <audio id="audio-output" controls></audio>
         </div>
 
         <!-- لوحة الأزرار والتحكم السفلية -->
         <div class="controls-wrapper">
             <div class="control-box">
-                <span class="panel-label">🎙️ RECORDING</span>
+                <span class="panel-label">🎙️ STEREO INPUT</span>
                 <button class="btn btn-rec" id="btn-start">🔴 تسجيل ستريو</button>
                 <button class="btn btn-stop" id="btn-stop" disabled>⏹️ إيقاف ومعالجة</button>
             </div>
 
             <div class="control-box">
-                <span class="panel-label">💾 EXPORT</span>
-                <!-- رابط مباشر حقيقي لمنع تجميد النظام -->
-                <a href="#" id="btn-download" class="btn btn-down">💾 حفظ ملف WAV الستريو</a>
+                <span class="panel-label">💾 APPLICATION EXPORT</span>
+                <!-- هذا الرابط أصبح مدعوماً من الـ WebView ومباشر -->
+                <a href="#" id="btn-download" class="btn btn-down">💾 حفظ ملف WAV الآن</a>
                 
                 <div class="info-node">
                     <div class="info-label">الوقت المنقضي</div>
@@ -190,7 +188,7 @@
     </div>
 
     <script>
-        class StereoStudioEngine {
+        class ApplicationAudioEngine {
             constructor() {
                 this.audioContext = null;
                 this.processor = null;
@@ -238,7 +236,6 @@
                     this.rightBuffer = [];
                     this.bufferLength = 0;
 
-                    // طلب ستريو حقيقي 100% وإغلاق فلاتر الموبايل المزعجة
                     const constraints = {
                         audio: {
                             channelCount: { ideal: 2 }, 
@@ -253,25 +250,24 @@
                     this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
                     const source = this.audioContext.createMediaStreamSource(stream);
 
-                    // فصل القنوات لقراءة مؤشرات يمين ويسار حقيقية مثل الفروتي لوبس
                     this.splitter = this.audioContext.createChannelSplitter(2);
                     this.analyserL = this.audioContext.createAnalyser();
                     this.analyserR = this.audioContext.createAnalyser();
                     
-                    this.analyserL.fftSize = 32;
-                    this.analyserR.fftSize = 32;
+                    // ضبط لإنتاج دقة موجات ناعمة وممتازة
+                    this.analyserL.fftSize = 2048;
+                    this.analyserR.fftSize = 2048;
 
                     source.connect(this.splitter);
-                    this.splitter.connect(this.analyserL, 0); // القناة 0 يسار
-                    this.splitter.connect(this.analyserR, 1); // القناة 1 يمين
+                    this.splitter.connect(this.analyserL, 0); 
+                    this.splitter.connect(this.analyserR, 1); 
 
-                    // معالج تجميع البايتات الخام لضمان النقاء وعدم الاختناق
                     this.processor = this.audioContext.createScriptProcessor(4096, 2, 2);
                     
                     this.processor.onaudioprocess = (e) => {
                         if (!this.isRecording) return;
                         const L = e.inputBuffer.getChannelData(0);
-                        const R = e.inputBuffer.getChannelData(1) || L; // إذا لم تتوفر القناة الثانية ننسخ الأولى لحمايته
+                        const R = e.inputBuffer.getChannelData(1) || L;
 
                         this.leftBuffer.push(new Float32Array(L));
                         this.rightBuffer.push(new Float32Array(R));
@@ -285,7 +281,7 @@
                     this.startTime = Date.now();
                     
                     this.startClock();
-                    this.drawMeters();
+                    this.drawWaves();
 
                     document.getElementById('btn-start').disabled = true;
                     document.getElementById('btn-start').classList.add('recording');
@@ -294,7 +290,7 @@
                     document.getElementById('player-zone').style.display = 'none';
 
                 } catch (err) {
-                    alert('يرجى فتح الصفحة من متصفح قوقل كروم الرسمي، والسماح بصلاحية المايك.');
+                    alert('يرجى إعطاء صلاحية المايك للتطبيق من إعدادات الهاتف ليعمل التسجيل الستريو.');
                 }
             }
 
@@ -313,15 +309,13 @@
                 document.getElementById('btn-start').classList.remove('recording');
                 document.getElementById('btn-stop').disabled = true;
 
-                this.compileWav();
+                this.compileWavForApp();
             }
 
-            compileWav() {
-                // دمج مصفوفات القنوات
+            compileWavForApp() {
                 const flatL = this.mergeChunks(this.leftBuffer, this.bufferLength);
                 const flatR = this.mergeChunks(this.rightBuffer, this.bufferLength);
 
-                // دمج القنوات بشكل متداخل (Interleaved) للستريو
                 const interleaved = new Float32Array(this.bufferLength * 2);
                 let idx = 0;
                 for (let i = 0; i < this.bufferLength; i++) {
@@ -329,7 +323,6 @@
                     interleaved[idx++] = flatR[i];
                 }
 
-                // بناء ترويسة ملف WAV القياسي عالي الدقة بدون ضغط
                 const buffer = new ArrayBuffer(44 + interleaved.length * 2);
                 const view = new DataView(buffer);
                 const sampleRate = this.audioContext.sampleRate || 44100;
@@ -339,12 +332,12 @@
                 this.writeStr(view, 8, 'WAVE');
                 this.writeStr(view, 12, 'fmt ');
                 view.setUint32(16, 16, true);
-                view.setUint16(20, 1, true); // PCM
-                view.setUint16(22, 2, true); // قناتين ستريو حقيقي
+                view.setUint16(20, 1, true); 
+                view.setUint16(22, 2, true); 
                 view.setUint32(24, sampleRate, true);
                 view.setUint32(28, sampleRate * 4, true);
                 view.setUint16(32, 4, true);
-                view.setUint16(34, 16, true); // 16 بت عمق الصوت الصافي
+                view.setUint16(34, 16, true); 
                 this.writeStr(view, 36, 'data');
                 view.setUint32(40, interleaved.length * 2, true);
 
@@ -355,18 +348,22 @@
                 }
 
                 const blob = new Blob([view], { type: 'audio/wav' });
-                const url = URL.createObjectURL(blob);
+                
+                // تحويل البيانت إلى رابط نصي Base64 متوافق 100% مع تطبيقات الموبايل والـ WebView
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const base64Url = reader.result;
+                    
+                    const player = document.getElementById('audio-output');
+                    player.src = base64Url;
+                    document.getElementById('player-zone').style.display = 'block';
 
-                // ربط الملف بالمشغل المدمج (للطوارئ والإنقاذ التام)
-                const player = document.getElementById('audio-output');
-                player.src = url;
-                document.getElementById('player-zone').style.display = 'block';
-
-                // تغذية زر الحفظ المباشر كرابط حقيقي ومصرح به من الهاتف
-                const dlBtn = document.getElementById('btn-download');
-                dlBtn.href = url;
-                dlBtn.download = `Sufi_Stereo_Master_${Date.now()}.wav`;
-                dlBtn.style.display = 'flex';
+                    const dlBtn = document.getElementById('btn-download');
+                    dlBtn.href = base64Url;
+                    dlBtn.download = `Sufi_Master_${Date.now()}.wav`;
+                    dlBtn.style.display = 'flex';
+                };
+                reader.readAsDataURL(blob);
                 
                 this.initCanvases();
             }
@@ -387,45 +384,50 @@
                 }
             }
 
-            drawMeters() {
+            drawWaves() {
                 if (!this.isRecording) return;
-                this.animId = requestAnimationFrame(() => this.drawMeters());
+                this.animId = requestAnimationFrame(() => this.drawWaves());
 
-                const lenL = this.analyserL.frequencyBinCount;
+                const lenL = this.analyserL.fftSize;
                 const dataL = new Uint8Array(lenL);
-                this.analyserL.getByteFrequencyData(dataL);
+                // استخدام دالة الدومين الزمني لإنتاج موجة اهتزاز حقيقية وليس أعمدة ترددية
+                this.analyserL.getByteTimeDomainData(dataL);
 
-                const lenR = this.analyserR.frequencyBinCount;
+                const lenR = this.analyserR.fftSize;
                 const dataR = new Uint8Array(lenR);
-                this.analyserR.getByteFrequencyData(dataR);
+                this.analyserR.getByteTimeDomainData(dataR);
 
-                this.renderVerticalBars(this.ctxL, this.canL, dataL, lenL, '#00f0ff');
-                this.renderVerticalBars(this.ctxR, this.canR, dataR, lenR, '#ff2a5f');
+                this.renderVerticalOscilloscope(this.ctxL, this.canL, dataL, lenL, '#00f0ff');
+                this.renderVerticalOscilloscope(this.ctxR, this.canR, dataR, lenR, '#ff2a5f');
             }
 
-            renderVerticalBars(ctx, canvas, data, len, primaryColor) {
+            renderVerticalOscilloscope(ctx, canvas, data, len, neonColor) {
                 const w = canvas.width;
                 const h = canvas.height;
                 ctx.fillStyle = '#010204';
                 ctx.fillRect(0, 0, w, h);
 
-                // رسم أعمدة ترددية عمودية حقيقية تصعد من الأسفل إلى الأعلى
-                const barWidth = w / len;
-                let x = 0;
+                ctx.beginPath();
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = neonColor;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = neonColor;
 
+                // رسم الموجة بشكل عامودي صاعد وهابط ويهتز من المنتصف يميناً ويساراً
                 for (let i = 0; i < len; i++) {
-                    const val = data[i];
-                    const barHeight = (val / 255) * h * 0.95;
+                    const v = data[i] / 128.0; // نقطة الارتكاز المركزية للموجة
+                    const x = (v * w) / 2;
+                    const y = (i / len) * h;
 
-                    const gradient = ctx.createLinearGradient(0, h, 0, h - barHeight);
-                    gradient.addColorStop(0, primaryColor);
-                    gradient.addColorStop(0.7, '#e5c158');
-                    gradient.addColorStop(1, '#ff2a5f');
-
-                    ctx.fillStyle = gradient;
-                    ctx.fillRect(x, h - barHeight, barWidth - 2, barHeight);
-                    x += barWidth;
+                    if (i === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
                 }
+                
+                ctx.stroke();
+                ctx.shadowBlur = 0; // تصفير الهالة للحفاظ على سرعة المتصفح
             }
 
             startClock() {
@@ -439,7 +441,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            new StereoStudioEngine();
+            new ApplicationAudioEngine();
         });
     </script>
 </body>
