@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>استوديو التسجيل الاحترافي</title>
+    <title>استوديو التسجيل الاحترافي - MP3 + مؤشر حقيقي</title>
+    <!-- إضافة مكتبة lamejs لتحويل الصوت إلى MP3 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.0/lame.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* --- نفس أنماط CSS السابقة بدون تغيير --- */
         :root {
             --bg-primary: #0a0e17;
             --bg-secondary: #141821;
@@ -305,24 +308,22 @@
             text-align: left;
         }
 
-        .vu-meter {
-            margin-top: 15px;
-        }
-
-        .vu-bar {
-            height: 8px;
-            background: var(--bg-primary);
+        /* --- نمط مؤشر VU الجديد --- */
+        .vu-meter-classic {
+            margin-top: 20px;
+            background: #0d1117;
             border-radius: 10px;
-            overflow: hidden;
-            position: relative;
+            padding: 10px;
+            border: 1px solid #2a2e39;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .vu-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #00ff00, #ffff00, #ff0000);
-            width: 0%;
-            transition: width 0.1s ease;
-            box-shadow: 0 0 10px currentColor;
+        #vuCanvas {
+            width: 100%;
+            height: 80px;
+            display: block;
         }
 
         .status-indicator {
@@ -396,7 +397,7 @@
     <div class="studio-container">
         <div class="studio-header">
             <h1 class="studio-title">استوديو التسجيل الاحترافي</h1>
-            <p class="studio-subtitle">جودة صوت استوديو كاملة - 48kHz</p>
+            <p class="studio-subtitle">تسجيل بصيغة MP3 مع مؤشرات استوديو حقيقية</p>
         </div>
 
         <div class="main-panel">
@@ -408,7 +409,7 @@
                 </div>
                 
                 <div class="quality-badge">
-                    ✨ نقاوة فائقة الدقة - STUDIO GRADE
+                    ✨ تسجيل MP3 عالي الجودة - 256kbps
                 </div>
             </div>
 
@@ -428,10 +429,9 @@
                             ■ إيقاف
                         </button>
                     </div>
-                    <div class="vu-meter">
-                        <div class="vu-bar">
-                            <div class="vu-fill" id="vuMeter"></div>
-                        </div>
+                    <!-- مؤشر VU الكلاسيكي الجديد -->
+                    <div class="vu-meter-classic">
+                        <canvas id="vuCanvas"></canvas>
                     </div>
                 </div>
 
@@ -442,7 +442,7 @@
                             ▶ تشغيل
                         </button>
                         <button class="btn btn-download" id="downloadBtn" disabled>
-                            ⬇ تحميل
+                            ⬇ تحميل MP3
                         </button>
                     </div>
                 </div>
@@ -481,14 +481,18 @@
                 this.timerInterval = null;
                 this.animationFrame = null;
                 
+                // عناصر canvas المختلفة
                 this.canvas = document.getElementById('visualizer');
                 this.canvasCtx = this.canvas.getContext('2d');
                 this.waveformCanvas = document.getElementById('waveform');
                 this.waveformCtx = this.waveformCanvas.getContext('2d');
+                this.vuCanvas = document.getElementById('vuCanvas');
+                this.vuCtx = this.vuCanvas.getContext('2d');
                 
                 this.setupCanvas();
                 this.bindEvents();
                 this.drawIdleVisualizer();
+                this.drawVUMeter(0); // رسم مؤشر VU في وضع السكون
             }
 
             setupCanvas() {
@@ -503,28 +507,92 @@
                 this.waveformCanvas.width = this.waveformCanvas.offsetWidth * dpr;
                 this.waveformCanvas.height = this.waveformCanvas.offsetHeight * dpr;
                 this.waveformCtx.scale(dpr, dpr);
+
+                // VU Meter canvas
+                this.vuCanvas.width = this.vuCanvas.offsetWidth * dpr;
+                this.vuCanvas.height = this.vuCanvas.offsetHeight * dpr;
+                this.vuCtx.scale(dpr, dpr);
+            }
+
+            // رسم مؤشر VU الكلاسيكي بإبرة
+            drawVUMeter(rmsLevel) {
+                const width = this.vuCanvas.offsetWidth;
+                const height = this.vuCanvas.offsetHeight;
+                const ctx = this.vuCtx;
+                
+                ctx.clearRect(0, 0, width, height);
+                
+                // خلفية المؤشر
+                ctx.fillStyle = '#0a0c10';
+                ctx.fillRect(0, 0, width, height);
+                
+                // رسم القوس المتدرج
+                const centerX = width / 2;
+                const centerY = height - 10;
+                const radius = Math.min(width, height) * 0.7;
+                
+                // ألوان القوس (أخضر -> أصفر -> أحمر)
+                const gradient = ctx.createConicalGradient(0, -Math.PI * 0.8, centerX, centerY);
+                gradient.addColorStop(0, '#4caf50');
+                gradient.addColorStop(0.6, '#ffeb3b');
+                gradient.addColorStop(1, '#f44336');
+                
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, Math.PI * 0.8, Math.PI * 2.2);
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 8;
+                ctx.stroke();
+                
+                // علامات القياس
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '8px Orbitron';
+                ctx.textAlign = 'center';
+                for (let i = 0; i <= 10; i++) {
+                    const angle = Math.PI * 0.8 + (i / 10) * (Math.PI * 1.4);
+                    const x = centerX + Math.cos(angle) * (radius - 15);
+                    const y = centerY + Math.sin(angle) * (radius - 15);
+                    ctx.fillText(i * 10, x, y);
+                }
+                
+                // رسم الإبرة
+                const needleAngle = Math.PI * 0.8 + (rmsLevel / 100) * (Math.PI * 1.4);
+                const needleLength = radius - 10;
+                const needleX = centerX + Math.cos(needleAngle) * needleLength;
+                const needleY = centerY + Math.sin(needleAngle) * needleLength;
+                
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(needleX, needleY);
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // مركز الإبرة
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffd700';
+                ctx.fill();
             }
 
             bindEvents() {
                 document.getElementById('recordBtn').addEventListener('click', () => this.startRecording());
                 document.getElementById('stopBtn').addEventListener('click', () => this.stopRecording());
                 document.getElementById('playBtn').addEventListener('click', () => this.playRecording());
-                document.getElementById('downloadBtn').addEventListener('click', () => this.downloadRecording());
+                document.getElementById('downloadBtn').addEventListener('click', () => this.downloadAsMP3());
             }
 
             async startRecording() {
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({
                         audio: {
-                            echoCancellation: true,
-                            noiseSuppression: true,
+                            echoCancellation: false,
+                            noiseSuppression: false,
                             autoGainControl: false,
                             sampleRate: 48000,
-                            channelCount: 2
+                            channelCount: 1 // أحادي للمعالجة الأدق
                         }
                     });
 
-                    // Setup audio context with high sample rate
                     this.audioContext = new (window.AudioContext || window.webkitAudioContext)({
                         sampleRate: 48000
                     });
@@ -532,13 +600,12 @@
                     const source = this.audioContext.createMediaStreamSource(stream);
                     this.analyser = this.audioContext.createAnalyser();
                     this.analyser.fftSize = 2048;
-                    this.analyser.smoothingTimeConstant = 0.8;
+                    this.analyser.smoothingTimeConstant = 0.85;
                     source.connect(this.analyser);
 
-                    // High quality recording
+                    // التسجيل بصيغة WAV للتحويل لاحقاً إلى MP3
                     this.mediaRecorder = new MediaRecorder(stream, {
-                        mimeType: 'audio/webm;codecs=opus',
-                        audioBitsPerSecond: 256000
+                        mimeType: 'audio/webm;codecs=opus'
                     });
 
                     this.audioChunks = [];
@@ -549,7 +616,7 @@
                         }
                     };
 
-                    this.mediaRecorder.onstop = () => {
+                    this.mediaRecorder.onstop = async () => {
                         this.audioBlob = new Blob(this.audioChunks, { type: 'audio/webm' });
                         this.audioUrl = URL.createObjectURL(this.audioBlob);
                         this.drawWaveform();
@@ -565,7 +632,7 @@
                     this.updateUI(true);
 
                 } catch (error) {
-                    console.error('Error accessing microphone:', error);
+                    console.error('خطأ في الوصول للميكروفون:', error);
                     alert('لا يمكن الوصول إلى الميكروفون. يرجى منح الإذن.');
                 }
             }
@@ -590,108 +657,144 @@
 
                 const bufferLength = this.analyser.frequencyBinCount;
                 const dataArray = new Uint8Array(bufferLength);
-                this.analyser.getByteFrequencyData(dataArray);
+                this.analyser.getByteTimeDomainData(dataArray); // استخدام TimeDomain لحساب RMS بدقة
 
+                // --- حساب RMS (جذر متوسط التربيع) للمؤشر الحقيقي ---
+                let sumSquares = 0;
+                for (let i = 0; i < bufferLength; i++) {
+                    const normalized = (dataArray[i] - 128) / 128; // تحويل إلى نطاق -1 إلى 1
+                    sumSquares += normalized * normalized;
+                }
+                const rms = Math.sqrt(sumSquares / bufferLength);
+                const rmsPercentage = Math.min(100, rms * 150); // تحويل إلى نسبة مئوية
+                
+                // تحديث مؤشر VU الكلاسيكي
+                this.drawVUMeter(rmsPercentage);
+
+                // رسم المؤشر البصري (الطيفي)
                 const width = this.canvas.offsetWidth;
                 const height = this.canvas.offsetHeight;
-
                 this.canvasCtx.fillStyle = '#141821';
                 this.canvasCtx.fillRect(0, 0, width, height);
 
                 const barWidth = (width / bufferLength) * 2.5;
-                let barHeight;
                 let x = 0;
 
-                // VU Meter update
-                const average = dataArray.reduce((a, b) => a + b) / bufferLength;
-                const vuLevel = (average / 255) * 100;
-                document.getElementById('vuMeter').style.width = vuLevel + '%';
-
                 for (let i = 0; i < bufferLength; i++) {
-                    barHeight = (dataArray[i] / 255) * height * 0.8;
-
-                    // Gradient for bars
+                    const barHeight = (dataArray[i] / 255) * height * 0.8;
                     const gradient = this.canvasCtx.createLinearGradient(0, height - barHeight, 0, height);
                     gradient.addColorStop(0, '#00f0ff');
-                    gradient.addColorStop(0.5, '#0080ff');
                     gradient.addColorStop(1, '#ff2e5f');
-
                     this.canvasCtx.fillStyle = gradient;
                     this.canvasCtx.fillRect(x, height - barHeight, barWidth - 2, barHeight);
-
-                    // Glow effect
-                    this.canvasCtx.shadowBlur = 10;
-                    this.canvasCtx.shadowColor = '#00f0ff';
-
                     x += barWidth + 1;
                 }
 
-                this.canvasCtx.shadowBlur = 0;
                 this.animationFrame = requestAnimationFrame(() => this.visualize());
             }
 
-            drawIdleVisualizer() {
-                const width = this.canvas.offsetWidth;
-                const height = this.canvas.offsetHeight;
+            // --- دالة تحويل وتسجيل الصوت بصيغة MP3 ---
+            downloadAsMP3() {
+                if (!this.audioBlob) return;
+
+                const fileReader = new FileReader();
+                fileReader.onload = () => {
+                    const arrayBuffer = fileReader.result;
+                    const audioContext = new AudioContext();
+                    
+                    audioContext.decodeAudioData(arrayBuffer, (audioBuffer) => {
+                        const mp3Blob = this.encodeToMP3(audioBuffer);
+                        const url = URL.createObjectURL(mp3Blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `تسجيل_ستوديو_${new Date().getTime()}.mp3`;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                    });
+                };
+                fileReader.readAsArrayBuffer(this.audioBlob);
+            }
+
+            encodeToMP3(audioBuffer) {
+                const sampleRate = audioBuffer.sampleRate;
+                const numChannels = audioBuffer.numberOfChannels;
+                const samples = audioBuffer.getChannelData(0); // القناة الأولى
                 
-                this.canvasCtx.fillStyle = '#141821';
-                this.canvasCtx.fillRect(0, 0, width, height);
+                const mp3Encoder = new lamejs.Mp3Encoder(1, sampleRate, 256); // 256kbps عالي الجودة
+                const sampleBlockSize = 1152;
                 
-                // Draw idle waveform
-                this.canvasCtx.strokeStyle = 'rgba(0, 240, 255, 0.3)';
-                this.canvasCtx.lineWidth = 2;
-                this.canvasCtx.beginPath();
+                let mp3Data = [];
                 
-                for (let i = 0; i < width; i++) {
-                    const y = height / 2 + Math.sin(i * 0.02) * 20;
-                    if (i === 0) {
-                        this.canvasCtx.moveTo(i, y);
-                    } else {
-                        this.canvasCtx.lineTo(i, y);
+                for (let i = 0; i < samples.length; i += sampleBlockSize) {
+                    const sampleChunk = samples.subarray(i, i + sampleBlockSize);
+                    const mp3buf = mp3Encoder.encodeBuffer(this.convertToInt16(sampleChunk));
+                    if (mp3buf.length > 0) {
+                        mp3Data.push(mp3buf);
                     }
                 }
                 
+                const mp3buf = mp3Encoder.flush();
+                if (mp3buf.length > 0) {
+                    mp3Data.push(mp3buf);
+                }
+                
+                return new Blob(mp3Data, { type: 'audio/mp3' });
+            }
+
+            convertToInt16(float32Array) {
+                const int16Array = new Int16Array(float32Array.length);
+                for (let i = 0; i < float32Array.length; i++) {
+                    let s = Math.max(-1, Math.min(1, float32Array[i]));
+                    s = s < 0 ? s * 0x8000 : s * 0x7FFF;
+                    int16Array[i] = s;
+                }
+                return int16Array;
+            }
+
+            // --- بقية الدوال بدون تغيير جوهري ---
+            drawIdleVisualizer() {
+                const width = this.canvas.offsetWidth;
+                const height = this.canvas.offsetHeight;
+                this.canvasCtx.fillStyle = '#141821';
+                this.canvasCtx.fillRect(0, 0, width, height);
+                this.canvasCtx.strokeStyle = 'rgba(0, 240, 255, 0.3)';
+                this.canvasCtx.lineWidth = 2;
+                this.canvasCtx.beginPath();
+                for (let i = 0; i < width; i++) {
+                    const y = height / 2 + Math.sin(i * 0.02) * 20;
+                    if (i === 0) this.canvasCtx.moveTo(i, y);
+                    else this.canvasCtx.lineTo(i, y);
+                }
                 this.canvasCtx.stroke();
             }
 
             async drawWaveform() {
                 if (!this.audioBlob) return;
-
                 const audioContext = new AudioContext();
                 const arrayBuffer = await this.audioBlob.arrayBuffer();
                 const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-                
                 const channelData = audioBuffer.getChannelData(0);
                 const width = this.waveformCanvas.offsetWidth;
                 const height = this.waveformCanvas.offsetHeight;
-                
                 this.waveformCtx.fillStyle = '#141821';
                 this.waveformCtx.fillRect(0, 0, width, height);
-                
                 const step = Math.ceil(channelData.length / width);
                 const amp = height / 2;
-                
                 this.waveformCtx.strokeStyle = '#ff2e5f';
                 this.waveformCtx.lineWidth = 2;
                 this.waveformCtx.beginPath();
-                
                 for (let i = 0; i < width; i++) {
-                    let min = 1.0;
-                    let max = -1.0;
-                    
+                    let min = 1.0, max = -1.0;
                     for (let j = 0; j < step; j++) {
                         const datum = channelData[(i * step) + j];
                         if (datum < min) min = datum;
                         if (datum > max) max = datum;
                     }
-                    
                     const yLow = (1 + min) * amp;
                     const yHigh = (1 + max) * amp;
-                    
                     this.waveformCtx.moveTo(i, yLow);
                     this.waveformCtx.lineTo(i, yHigh);
                 }
-                
                 this.waveformCtx.stroke();
             }
 
@@ -699,19 +802,6 @@
                 if (this.audioUrl) {
                     const audio = new Audio(this.audioUrl);
                     audio.play();
-                }
-            }
-
-            downloadRecording() {
-                if (this.audioBlob) {
-                    const url = URL.createObjectURL(this.audioBlob);
-                    const a = document.createElement('a');
-                    a.style.display = 'none';
-                    a.href = url;
-                    a.download = `تسجيل_${new Date().getTime()}.webm`;
-                    document.body.appendChild(a);
-                    a.click();
-                    URL.revokeObjectURL(url);
                 }
             }
 
@@ -726,9 +816,7 @@
             }
 
             stopTimer() {
-                if (this.timerInterval) {
-                    clearInterval(this.timerInterval);
-                }
+                if (this.timerInterval) clearInterval(this.timerInterval);
             }
 
             updateUI(recording) {
@@ -736,7 +824,6 @@
                 const stopBtn = document.getElementById('stopBtn');
                 const statusDot = document.getElementById('statusDot');
                 const statusText = document.getElementById('statusText');
-
                 if (recording) {
                     recordBtn.disabled = true;
                     recordBtn.classList.add('recording');
@@ -750,11 +837,11 @@
                     statusDot.classList.remove('recording');
                     statusText.textContent = 'جاهز';
                     this.drawIdleVisualizer();
+                    this.drawVUMeter(0);
                 }
             }
         }
 
-        // Initialize recorder when page loads
         window.addEventListener('DOMContentLoaded', () => {
             new ProfessionalRecorder();
         });
